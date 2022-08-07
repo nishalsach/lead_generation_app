@@ -28,6 +28,13 @@ source_dict = {
     'VentureBeat': 'venturebeat',
 }
 
+# List of metadata columns
+metadata_col_names = [
+    'arxiv_id', 'arxiv_url', 'arxiv_primary_category', 
+    'arxiv_all_categories', 'published', 'code_mentioned', 'readability'
+    'title', 'summary', 'completion1', 'completion2', 'completion3', 
+    'predicted_newsworthiness']
+
 # Title
 st.title("arXiv Lead Recommender")
 
@@ -50,5 +57,19 @@ venues = st.multiselect(
     ['MIT Technology Review', 'Wired', 'VentureBeat'])
 venues_col_names = [source_dict[venue] for venue in venues]
 
-# 
+# Filter on date and venues
+predictions = predictions[
+    (predictions['published'] >= start_date)
+][metadata_col_names + venues_col_names]
+# Scoring on relevance
+predictions['relevance_score'] = predictions[venues_col_names].mean(axis=1)
+# Overall scoring
+predictions['ranking_score'] = (predictions['relevance_score'] + predictions['predicted_newsworthiness']) / 2
+# Sort by overall score
+predictions = predictions.sort_values(by='ranking_score', ascending=False)
+# Reset index
+predictions = predictions.reset_index(drop=True)
+# Display in streamlit
+st.write(predictions)
+
 
