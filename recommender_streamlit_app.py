@@ -43,7 +43,7 @@ source_dict = {
 # List of metadata columns
 metadata_col_names = [
     'arxiv_id', 'arxiv_url', 'arxiv_primary_category', 
-    'arxiv_all_categories', 'published', 'code_mentioned', 'readability'
+    'arxiv_all_categories', 'published', 'code_mentioned', 'readability',
     'title', 'summary', 'completion1', 'completion2', 'completion3', 
     'predicted_newsworthiness']
 
