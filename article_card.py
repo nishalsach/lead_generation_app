@@ -78,7 +78,7 @@ class articleCard():
 
             with header:
                 # Title
-                st.header(f"{self.title}")
+                st.subheader(f"{self.title}")
                 # Published and link
                 st.markdown(
                     f"**Date Published**: {self.published}  \n **Primary Category**: ")
