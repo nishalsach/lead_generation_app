@@ -100,7 +100,7 @@ class articleCard():
             with completions_container:
 
                 # Describe it
-                completions_container.markdown(f"##### News Angles to Explore")
+                completions_container.markdown(f"##### News Angles")
 
                 # Make the tabs
                 tab1, tab2, tab3 = completions_container.tabs(['Angle #1', 'Angle #2', 'Angle #3'])
