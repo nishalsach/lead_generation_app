@@ -3,10 +3,10 @@ import streamlit as st
 import pandas as pd
 from datetime import date
 
-# # Read in data
-# predictions = pd.read_json(
-#     'https://github.com/nishalsach/lead_generation_app/blob/main/predicted_data_sample.json', 
-#     orient='records')
+# Read in data
+predictions = pd.read_json(
+    'predicted_data_sample.json', 
+    orient='records')
 
 # Today's date
 today = date.today()
