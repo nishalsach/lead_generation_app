@@ -89,7 +89,7 @@ class articleCard():
             
             with summary:
                 # Summary
-                st.text(f"\n\n{self.summary}")
+                st.write(f"\n\n{self.summary}")
 
             with completions_container:
 
