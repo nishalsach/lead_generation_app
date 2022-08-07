@@ -70,6 +70,7 @@ class articleCard():
 
         # Main column
         with main:
+
             # Title
             st.markdown(f"### {self.title}")
             # Published and link
@@ -82,7 +83,7 @@ class articleCard():
             )
             
             # Summary
-            st.markdown(f"\n{self.summary}")
+            st.write(f"\n{self.summary}")
 
             # Container for completions
             completions_container = st.container()
