@@ -59,8 +59,8 @@ class articleCard():
         self.predicted_newsworthiness = predicted_newsworthiness
     
     def show(self):
-        '''Display the article card.'''
 
+        '''Display the article card.'''
 
         # Make a container
         article_container = st.container()
@@ -73,14 +73,16 @@ class articleCard():
             # Title
             st.markdown(f"### {self.title}")
             # Published and link
-            st.markdown(f"Date Published: {self.published} | [arXiv Link]({self.arxiv_url})")
+            st.markdown(f"**Date Published**: {self.published} | [arXiv Link]({self.arxiv_url})")
 
             # Categories
             annotated_text(
                 "Categories: ", 
-                ("Primary", self.arxiv_primary_category, "#afa"), 
-                (" | All", self.arxiv_all_categories)
+                (self.arxiv_primary_category, "", "#afa"), 
+                # " | All", 
+                # self.arxiv_all_categories
             )
+            
 
             # Summary
             st.markdown(f"{self.summary}")
