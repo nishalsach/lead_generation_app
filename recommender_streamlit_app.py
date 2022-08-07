@@ -5,7 +5,7 @@ from datetime import date
 
 # Read in data
 predictions = pd.read_json(
-    'predicted_data_sample.json', 
+    'predicted_data_sample_latest.json', 
     orient='records')
 
 # Set some variables
@@ -64,8 +64,8 @@ venues_col_names = [source_dict[venue] for venue in venues]
 
 # Filter on date and venues
 if start_date and venues_col_names:
-    predictions = predictions[
-        (predictions['published'] >= start_date)
+    predictions = predictions.loc[
+        predictions['published'] >= start_date
     ][metadata_col_names + venues_col_names]
     # Scoring on relevance
     predictions['relevance_score'] = predictions[venues_col_names].mean(axis=1)
