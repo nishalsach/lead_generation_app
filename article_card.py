@@ -77,7 +77,7 @@ class articleCard():
 
             # Categories
             annotated_text(
-                "Categories: ", 
+                "**Categories**: ", 
                 (self.arxiv_primary_category, "", "#afa"), 
                 # " | All", 
                 # self.arxiv_all_categories
@@ -98,7 +98,7 @@ class articleCard():
 
         with aside: 
             annotated_text(
-                "Predicted Newsworthiness:", 
+                "Newsworthiness:", 
                 (f"{self.predicted_newsworthiness}", "#afa")
                 )
             
