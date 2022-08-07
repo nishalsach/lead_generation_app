@@ -6,8 +6,7 @@ from datetime import date
 # Read in data
 predictions = pd.read_csv(
     'predicted_data_sample_latest.csv')
-
-st.write(predictions.loc[0, 'published'])
+    
 # Set some variables
 venues_col_names = []
 start_date = None
