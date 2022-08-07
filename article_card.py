@@ -83,39 +83,26 @@ class articleCard():
                 # self.arxiv_all_categories
             )
             
-
             # Summary
-            st.markdown(f"{self.summary}")
+            st.markdown(f"\n{self.summary}")
 
-            # Completion 1
-            st.markdown(f"Completion 1: {self.completion1}")
+            # Container for completions
+            completions_container = st.container()
 
-            # Completion 2
-            st.markdown(f"Completion 2: {self.completion2}")
+            with completions_container:
+                tab1, tab2, tab3 = completions_container.tabs(['Angle #1', 'Angle #2', 'Angle #3'])
 
-            # Completion 3
-            st.markdown(f"Completion 3: {self.completion3}")
+                with tab1:
+                    st.markdown(f"**Completion 1**: {self.completion1}")
+                
+                with tab2:
+                    st.markdown(f"**Completion 2**: {self.completion2}")
+                
+                with tab3:
+                    st.markdown(f"**Completion 3**: {self.completion3}")
         
+        # Aside column
         aside.metric(
             label="Newsworthiness", 
             value=self.predicted_newsworthiness)
-
-        # with aside: 
-        #     annotated_text(
-        #         "Newsworthiness Score \n", 
-        #         (f"{self.predicted_newsworthiness}", "", "#afa")
-        #         )
-            
-
-        # # Code mentioned
-        # st.markdown(f"Code mentioned: {self.code_mentioned}")
-
-        # # Readability
-        # st.markdown(f"Readability: {self.readability}")
-
         
-
-        # # Predicted newsworthiness
-        # st.markdown(f"Predicted newsworthiness: {self.predicted_newsworthiness}")
-
-
