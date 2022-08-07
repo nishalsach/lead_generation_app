@@ -69,39 +69,39 @@ venues_col_names = [source_dict[venue] for venue in venues]
 if start_date and venues_col_names:
 
     # Filter data
-    predictions_filtered = predictions.loc[
+    predictions = predictions.loc[
         predictions['published'] >= start_date
     ][metadata_col_names + venues_col_names]
 
     # Scoring on relevance
-    predictions_filtered['relevance_score'] = predictions_filtered[venues_col_names].mean(axis=1)
+    predictions['relevance_score'] = predictions[venues_col_names].mean(axis=1)
 
     # Overall scoring
-    predictions_filtered['ranking_score'] = (predictions_filtered['relevance_score'] + predictions_filtered['predicted_newsworthiness']) / 2
+    predictions['ranking_score'] = (predictions['relevance_score'] + predictions['predicted_newsworthiness']) / 2
 
     # Sort by overall score
-    predictions_filtered = predictions_filtered.sort_values(by='ranking_score', ascending=False)
+    predictions = predictions.sort_values(by='ranking_score', ascending=False)
     
     # Reset index
-    predictions_filtered = predictions_filtered.reset_index(drop=True)
+    predictions = predictions.reset_index(drop=True)
 
     # Fill in article cards
     article_cards = []
-    for i in range(len(predictions_filtered)):
+    for i in range(len(predictions)):
         article = ac.articleCard()
-        article.set_arxiv_id(predictions_filtered.loc[i, 'arxiv_id'])
-        article.set_title(predictions_filtered.loc[i, 'title'])
-        article.set_summary(predictions_filtered.loc[i, 'summary'])
-        article.set_published(predictions_filtered.loc[i, 'published'])
-        article.set_arxiv_url(predictions_filtered.loc[i, 'arxiv_url'])
-        article.set_arxiv_primary_category(predictions_filtered.loc[i, 'arxiv_primary_category'])
-        article.set_arxiv_all_categories(predictions_filtered.loc[i, 'arxiv_all_categories'])
-        article.set_code_mentioned(predictions_filtered.loc[i, 'code_mentioned'])
-        article.set_readability(predictions_filtered.loc[i, 'readability'])
-        article.set_completion1(predictions_filtered.loc[i, 'completion1'])
-        article.set_completion2(predictions_filtered.loc[i, 'completion2'])
-        article.set_completion3(predictions_filtered.loc[i, 'completion3'])
-        article.set_predicted_newsworthiness(predictions_filtered.loc[i, 'predicted_newsworthiness'])
+        article.set_arxiv_id(predictions.loc[i, 'arxiv_id'])
+        article.set_title(predictions.loc[i, 'title'])
+        article.set_summary(predictions.loc[i, 'summary'])
+        article.set_published(predictions.loc[i, 'published'])
+        article.set_arxiv_url(predictions.loc[i, 'arxiv_url'])
+        article.set_arxiv_primary_category(predictions.loc[i, 'arxiv_primary_category'])
+        article.set_arxiv_all_categories(predictions.loc[i, 'arxiv_all_categories'])
+        article.set_code_mentioned(predictions.loc[i, 'code_mentioned'])
+        article.set_readability(predictions.loc[i, 'readability'])
+        article.set_completion1(predictions.loc[i, 'completion1'])
+        article.set_completion2(predictions.loc[i, 'completion2'])
+        article.set_completion3(predictions.loc[i, 'completion3'])
+        article.set_predicted_newsworthiness(predictions.loc[i, 'predicted_newsworthiness'])
         article_cards.append(article)
     
 
