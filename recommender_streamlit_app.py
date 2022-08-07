@@ -41,14 +41,6 @@ metadata_col_names = [
 # Title
 st.title("arXiv Lead Recommender")
 
-
-
-# Using object notation
-add_selectbox = st.sidebar.selectbox(
-    "How would you like to be contacted?",
-    ("Email", "Home phone", "Mobile phone")
-)
-
 # Using "with" notation
 with st.sidebar:
     time_range = st.radio(
