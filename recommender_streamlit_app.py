@@ -105,6 +105,7 @@ if start_date and venues_col_names:
         
     # Display article cards
     for article in article_cards:
+        
         article.show()
 
 

@@ -1,4 +1,5 @@
 import streamlit as st
+from annotated_text import annotated_text
 
 class articleCard():
 
@@ -60,40 +61,55 @@ class articleCard():
     def show(self):
         '''Display the article card.'''
 
-        # Title
-        st.markdown(f"### {self.title}")
 
-        # Summary
-        st.markdown(f"{self.summary}")
+        # Make a container
+        article_container = st.container()
 
-        # Published
-        st.markdown(f"Published: {self.published}")
+        # Make columns
+        main, aside = article_container.columns([4, 1])
 
-        # Arxiv URL
-        st.markdown(f"[arXiv URL]({self.arxiv_url})")
+        # Main column
+        with main:
+            # Title
+            st.markdown(f"### {self.title}")
+            # Published and link
+            st.markdown(f"Date Published: {self.published} | [arXiv Link]({self.arxiv_url})")
 
-        # Arxiv primary category
-        st.markdown(f"arXiv primary category: {self.arxiv_primary_category}")
+            # Categories
+            annotated_text(
+                "Categories: ", 
+                ("Primary", self.arxiv_primary_category, "#afa"), 
+                (" | All", self.arxiv_all_categories)
+            )
 
-        # Arxiv all categories
-        st.markdown(f"arXiv all categories: {self.arxiv_all_categories}")
+            # Summary
+            st.markdown(f"{self.summary}")
 
-        # Code mentioned
-        st.markdown(f"Code mentioned: {self.code_mentioned}")
+            # Completion 1
+            st.markdown(f"Completion 1: {self.completion1}")
 
-        # Readability
-        st.markdown(f"Readability: {self.readability}")
+            # Completion 2
+            st.markdown(f"Completion 2: {self.completion2}")
 
-        # Completion 1
-        st.markdown(f"Completion 1: {self.completion1}")
+            # Completion 3
+            st.markdown(f"Completion 3: {self.completion3}")
 
-        # Completion 2
-        st.markdown(f"Completion 2: {self.completion2}")
+        with aside: 
+            annotated_text(
+                "Predicted Newsworthiness:", 
+                (f"{self.predicted_newsworthiness}", "#afa")
+                )
+            
 
-        # Completion 3
-        st.markdown(f"Completion 3: {self.completion3}")
+        # # Code mentioned
+        # st.markdown(f"Code mentioned: {self.code_mentioned}")
 
-        # Predicted newsworthiness
-        st.markdown(f"Predicted newsworthiness: {self.predicted_newsworthiness}")
+        # # Readability
+        # st.markdown(f"Readability: {self.readability}")
+
+        
+
+        # # Predicted newsworthiness
+        # st.markdown(f"Predicted newsworthiness: {self.predicted_newsworthiness}")
 
 
