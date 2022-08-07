@@ -90,7 +90,7 @@ class articleCard():
             completions_container = st.container()
             with completions_container:
                 # Describe it
-                completions_container.write("Interesting news angles to explore:")
+                completions_container.markdown(f"**News Angles to Explore**")
                 # Make the tabs
                 tab1, tab2, tab3 = completions_container.tabs(['Angle #1', 'Angle #2', 'Angle #3'])
 
@@ -105,7 +105,7 @@ class articleCard():
         
         # Aside column
         aside.metric(
-            label="Predicted Newsworthiness", 
+            label="Newsworthiness", 
             value=self.predicted_newsworthiness)
 
         article_container.markdown("""---""")
