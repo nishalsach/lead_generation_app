@@ -83,11 +83,12 @@ class articleCard():
                 st.markdown(f"**Date Published**: {self.published} | [arXiv Link]({self.arxiv_url})")
                 # Categories
                 st.write(
-                    f"**Primary Category**: {self.arxiv_primary_category}", 
+                    f"**Primary Category**: ", 
                     annotated_text(
-                    (self.arxiv_primary_category, "", "#afa"), 
-                ))
-                # Categories
+                        (self.arxiv_primary_category, "", "#afa")
+                    )
+                )
+
                 
             
             with summary:
