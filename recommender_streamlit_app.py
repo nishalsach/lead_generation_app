@@ -49,8 +49,10 @@ metadata_col_names = [
     'predicted_newsworthiness']
 
 # Title
-st.title("arXiv News Discovery Engine")
-st.markdown("""---""")
+title_container = st.container()
+with title_container:
+    st.title("arXiv News Discovery Engine")
+    st.markdown("""---""")
 
 # Using "with" notation
 with st.sidebar:
@@ -104,13 +106,10 @@ if start_date and venues_col_names:
         article.set_predicted_newsworthiness(predictions.loc[i, 'predicted_newsworthiness'])
         article_cards.append(article)
     
+    articles_container = st.container()
+    with articles_container:
+        # Display article cards
+        for article in article_cards:
+            article.show()
 
-    # Display article cards
-    for article in article_cards:
-
-        article.show()
-
-    # Temp variable
-    var = st.write("HEllo")
-    st.write(var)
 
