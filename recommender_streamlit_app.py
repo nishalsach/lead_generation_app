@@ -1,8 +1,9 @@
-# import module
+# Library Imports
 import streamlit as st
 import pandas as pd
 from datetime import date
 import datetime
+import article_card as ac
 
 # Read in data
 predictions = pd.read_json(
@@ -63,20 +64,47 @@ with st.sidebar:
 start_date = date_dict[time_range]
 venues_col_names = [source_dict[venue] for venue in venues]
 
-# Filter on date and venues
+# Run app
 if start_date and venues_col_names:
+
+    # Filter data
     predictions = predictions.loc[
         predictions['published'] >= start_date
     ][metadata_col_names + venues_col_names]
+
     # Scoring on relevance
     predictions['relevance_score'] = predictions[venues_col_names].mean(axis=1)
+
     # Overall scoring
     predictions['ranking_score'] = (predictions['relevance_score'] + predictions['predicted_newsworthiness']) / 2
+
     # Sort by overall score
     predictions = predictions.sort_values(by='ranking_score', ascending=False)
+    
     # Reset index
     predictions = predictions.reset_index(drop=True)
-    # Display in streamlit
-    st.write(predictions)
+
+    # Fill in article cards
+    article_cards = []
+    for i in range(len(predictions)):
+        article = ac.articleCard()
+        article.set_arxiv_id(predictions.loc[i, 'arxiv_id'])
+        article.set_title(predictions.loc[i, 'title'])
+        article.set_summary(predictions.loc[i, 'summary'])
+        article.set_published(predictions.loc[i, 'published'])
+        article.set_arxiv_url(predictions.loc[i, 'arxiv_url'])
+        article.set_arxiv_primary_category(predictions.loc[i, 'arxiv_primary_category'])
+        article.set_arxiv_all_categories(predictions.loc[i, 'arxiv_all_categories'])
+        article.set_code_mentioned(predictions.loc[i, 'code_mentioned'])
+        article.set_readability(predictions.loc[i, 'readability'])
+        article.set_completion1(predictions.loc[i, 'completion1'])
+        article.set_completion2(predictions.loc[i, 'completion2'])
+        article.set_completion3(predictions.loc[i, 'completion3'])
+        article.set_predicted_newsworthiness(predictions.loc[i, 'predicted_newsworthiness'])
+        article_cards.append(article)
+        
+    # Display article cards
+    for article in article_cards:
+        article.show()
 
 
