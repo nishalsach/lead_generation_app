@@ -81,7 +81,7 @@ class articleCard():
                 st.header(f"{self.title}")
                 # Published and link
                 st.markdown(
-                    f"**Date Published**: {self.published} \ [arXiv Link]({self.arxiv_url}) \ **Primary Category**: ")
+                    f"**Date Published**: {self.published} <br> [arXiv Link]({self.arxiv_url}) <br> **Primary Category**: ")
                 # # Categories
                 # st.write(
                 #     f"**Primary Category**: ", 
