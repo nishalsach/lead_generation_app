@@ -80,11 +80,12 @@ class articleCard():
                 # Title
                 st.header(f"{self.title}")
                 # Published and link
-                st.markdown(f"**Date Published**: {self.published} | [arXiv Link]({self.arxiv_url})")
-                # Categories
-                st.write(
-                    f"**Primary Category**: ", 
-                )
+                st.markdown(
+                    f"**Date Published**: {self.published} \ [arXiv Link]({self.arxiv_url}) \ **Primary Category**: ")
+                # # Categories
+                # st.write(
+                #     f"**Primary Category**: ", 
+                # )
                 # st.write(                    
                 #     annotated_text(
                 #         "HI?", 
