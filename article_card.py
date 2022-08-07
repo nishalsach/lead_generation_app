@@ -85,7 +85,7 @@ class articleCard():
                 st.write(
                     f"**Primary Category**: ", 
                     annotated_text(
-                        ("AAAA", "", "#afa")
+                        ("AAAA", "aaa", "#afa")
                     )
                 )
 
