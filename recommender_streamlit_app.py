@@ -106,13 +106,13 @@ if start_date and venues_col_names:
         article.set_predicted_newsworthiness(predictions.loc[i, 'predicted_newsworthiness'])
         article_cards.append(article)
     
+    # Make a container for the articles
     articles_container = st.container()
     with articles_container:
         # Display article cards
         for article in article_cards:
             article.show()
-
-    # Add st empty
-    with title_container:
-        st.empty()
+    
+    # Scroll up
+    st.markdown("""<script>window.scrollTo(0, 0);</script>""", unsafe_allow_html=True)
 
