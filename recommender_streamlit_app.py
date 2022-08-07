@@ -112,4 +112,7 @@ if start_date and venues_col_names:
         for article in article_cards:
             article.show()
 
+    # Add st empty
+    with title_container:
+        st.empty()
 
