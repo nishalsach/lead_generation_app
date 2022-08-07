@@ -4,9 +4,8 @@ import pandas as pd
 from datetime import date
 
 # Read in data
-predictions = pd.read_json(
-    'predicted_data_sample_latest.json', 
-    orient='records')
+predictions = pd.read_csv(
+    'predicted_data_sample_latest.csv')
 
 st.write(predictions.loc[0, 'published'])
 # Set some variables
