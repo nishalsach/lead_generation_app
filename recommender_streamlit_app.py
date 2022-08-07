@@ -8,7 +8,7 @@ predictions = pd.read_json(
     'predicted_data_sample_latest.json', 
     orient='records')
 
-st.write(type(predictions.loc[0, 'published']))
+st.write(predictions.loc[0, 'published'])
 # Set some variables
 venues_col_names = []
 start_date = None
