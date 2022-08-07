@@ -114,5 +114,5 @@ if start_date and venues_col_names:
             article.show()
     
     # Scroll up
-    st.markdown("""<script>window.scrollTo(0, 0);</script>""", unsafe_allow_html=True)
+    st.markdown("[Scroll to the top.](#arxiv-news-discovery-engine)")
 
