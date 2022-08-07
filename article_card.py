@@ -73,11 +73,12 @@ class articleCard():
             # Title
             st.markdown(f"### {self.title}")
             # Published and link
-            st.markdown(f"**Date Published**: {self.published} | [arXiv Link]({self.arxiv_url})")
+            st.markdown(
+                f"**Date Published**: {self.published} | [arXiv Link]({self.arxiv_url}) \n **Primary Category**:")
 
             # Categories
             annotated_text(
-                "Primary Category: ", 
+                "", 
                 (self.arxiv_primary_category, "", "#afa"), 
             )
             
