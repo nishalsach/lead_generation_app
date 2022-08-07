@@ -77,10 +77,8 @@ class articleCard():
 
             # Categories
             annotated_text(
-                "Categories: ", 
+                "Primary Category: ", 
                 (self.arxiv_primary_category, "", "#afa"), 
-                # " | All", 
-                # self.arxiv_all_categories
             )
             
             # Summary
@@ -89,17 +87,17 @@ class articleCard():
             # Container for completions
             completions_container = st.container()
             with completions_container:
+
                 # Describe it
                 completions_container.markdown(f"**News Angles to Explore**")
+
                 # Make the tabs
                 tab1, tab2, tab3 = completions_container.tabs(['Angle #1', 'Angle #2', 'Angle #3'])
 
                 with tab1:
                     st.write(self.completion1)
-                
                 with tab2:
                     st.write(self.completion2)
-                
                 with tab3:
                     st.write(self.completion3)
         
