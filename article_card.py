@@ -114,8 +114,7 @@ class articleCard():
         
         # Aside column
         with aside:
-            st.write("Newsworthiness")
-            st.markdown(f"### {self.predicted_newsworthiness}")
+            st.markdown(f"Newsworthiness  \n ### {self.predicted_newsworthiness}")
 
         # aside.metric(
         #     label="Newsworthiness", 
