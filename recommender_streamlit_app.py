@@ -50,6 +50,7 @@ metadata_col_names = [
 
 # Title
 st.title("arXiv News Discovery Engine")
+st.markdown("""---""")
 
 # Using "with" notation
 with st.sidebar:
@@ -102,7 +103,8 @@ if start_date and venues_col_names:
         article.set_completion3(predictions.loc[i, 'completion3'])
         article.set_predicted_newsworthiness(predictions.loc[i, 'predicted_newsworthiness'])
         article_cards.append(article)
-        
+    
+
     # Display article cards
     for article in article_cards:
 
