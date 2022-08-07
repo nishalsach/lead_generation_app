@@ -8,6 +8,7 @@ predictions = pd.read_json(
     'predicted_data_sample_latest.json', 
     orient='records')
 
+st.write(type(predictions.loc[0, 'published']))
 # Set some variables
 venues_col_names = []
 start_date = None
@@ -18,7 +19,7 @@ today = date.today()
 two_weeks_ago = today - pd.Timedelta(days=14)
 two_months_ago = today - pd.Timedelta(days=60)
 six_months_ago = today - pd.Timedelta(days=180)
-st.write(two_weeks_ago, two_months_ago, six_months_ago)
+
 # Make dictionary of relative dates
 date_dict = {
     'Last two weeks': two_weeks_ago,
