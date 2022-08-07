@@ -49,7 +49,7 @@ metadata_col_names = [
     'predicted_newsworthiness']
 
 # Title
-st.title("arXiv Lead Recommender")
+st.title("arXiv News Discovery Engine")
 
 # Using "with" notation
 with st.sidebar:
@@ -105,7 +105,7 @@ if start_date and venues_col_names:
         
     # Display article cards
     for article in article_cards:
-        
+
         article.show()
 
 
