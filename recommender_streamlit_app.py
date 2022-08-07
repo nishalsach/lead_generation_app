@@ -56,6 +56,7 @@ with title_container:
 
 # Using "with" notation
 with st.sidebar:
+    st.header("Date and Venue Filters")
     time_range = st.radio(
         "Select time range for leads:", 
     ("Last two weeks", "Last two months", "Last six months"))
@@ -114,5 +115,5 @@ if start_date and venues_col_names:
             article.show()
     
     # Scroll up
-    st.markdown("[Scroll to the top.](#arxiv-news-discovery-engine)")
+    st.markdown("[Go back to the top.](#arxiv-news-discovery-engine)")
 
