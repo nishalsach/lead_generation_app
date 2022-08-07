@@ -18,6 +18,7 @@ today = date.today()
 two_weeks_ago = today - pd.Timedelta(days=14)
 two_months_ago = today - pd.Timedelta(days=60)
 six_months_ago = today - pd.Timedelta(days=180)
+st.write(two_weeks_ago, two_months_ago, six_months_ago)
 # Make dictionary of relative dates
 date_dict = {
     'Last two weeks': two_weeks_ago,
