@@ -110,4 +110,7 @@ if start_date and venues_col_names:
 
         article.show()
 
+    # Temp variable
+    var = st.write("HEllo")
+    st.write(var)
 
