@@ -93,13 +93,13 @@ class articleCard():
                 tab1, tab2, tab3 = completions_container.tabs(['Angle #1', 'Angle #2', 'Angle #3'])
 
                 with tab1:
-                    st.markdown(f"### {self.completion1}")
+                    st.markdown(f"##### {self.completion1}")
                 
                 with tab2:
-                    st.markdown(f"### {self.completion2}")
+                    st.markdown(f"##### {self.completion2}")
                 
                 with tab3:
-                    st.markdown(f"### {self.completion3}")
+                    st.markdown(f"##### {self.completion3}")
         
         # Aside column
         aside.metric(
