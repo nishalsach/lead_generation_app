@@ -2,11 +2,21 @@
 import streamlit as st
 import pandas as pd
 from datetime import date
+import datetime
+import swifter
 
 # Read in data
-predictions = pd.read_csv(
-    'predicted_data_sample_latest.csv')
-    
+predictions = pd.read_json(
+    'predicted_data_sample_latest.json', 
+    orient='records')
+# predictions = pd.read_csv(
+#     'predicted_data_sample_latest.csv')
+
+# Convert date
+predictions['published'] = predictions['published'].swifter.apply(
+    lambda x: datetime.datetime.fromtimestamp(int(x)/1000).date()
+)
+
 # Set some variables
 venues_col_names = []
 start_date = None
