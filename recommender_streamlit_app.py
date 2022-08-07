@@ -8,6 +8,10 @@ predictions = pd.read_json(
     'predicted_data_sample.json', 
     orient='records')
 
+# Set some variables
+venues_col_names = []
+start_date = None
+
 # Today's date
 today = date.today()
 # Get relative dates
@@ -58,18 +62,19 @@ venues = st.multiselect(
 venues_col_names = [source_dict[venue] for venue in venues]
 
 # Filter on date and venues
-predictions = predictions[
-    (predictions['published'] >= start_date)
-][metadata_col_names + venues_col_names]
-# Scoring on relevance
-predictions['relevance_score'] = predictions[venues_col_names].mean(axis=1)
-# Overall scoring
-predictions['ranking_score'] = (predictions['relevance_score'] + predictions['predicted_newsworthiness']) / 2
-# Sort by overall score
-predictions = predictions.sort_values(by='ranking_score', ascending=False)
-# Reset index
-predictions = predictions.reset_index(drop=True)
-# Display in streamlit
-st.write(predictions)
+if start_date and venues_col_names:
+    predictions = predictions[
+        (predictions['published'] >= start_date)
+    ][metadata_col_names + venues_col_names]
+    # Scoring on relevance
+    predictions['relevance_score'] = predictions[venues_col_names].mean(axis=1)
+    # Overall scoring
+    predictions['ranking_score'] = (predictions['relevance_score'] + predictions['predicted_newsworthiness']) / 2
+    # Sort by overall score
+    predictions = predictions.sort_values(by='ranking_score', ascending=False)
+    # Reset index
+    predictions = predictions.reset_index(drop=True)
+    # Display in streamlit
+    st.write(predictions)
 
 
