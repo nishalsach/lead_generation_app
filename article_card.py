@@ -81,7 +81,7 @@ class articleCard():
                 st.header(f"{self.title}")
                 # Published and link
                 st.markdown(
-                    f"**Date Published**: {self.published}  \n [arXiv Link]({self.arxiv_url})  \n **Primary Category**: ")
+                    f"**Date Published**: {self.published}  \n **Primary Category**: ")
                 # # Categories
                 # st.write(
                 #     f"**Primary Category**: ", 
@@ -95,7 +95,7 @@ class articleCard():
 
             with summary:
                 # Summary
-                st.markdown(f"##### Summary  \n {self.summary}")
+                st.markdown(f"##### Summary  \n {self.summary}  \n [Link to full arXiv article.]({self.arxiv_url})")
 
             with completions_container:
 
