@@ -84,8 +84,10 @@ class articleCard():
                 # Categories
                 st.write(
                     f"**Primary Category**: ", 
+                )
+                st.write(                    
                     annotated_text(
-                        ("AAAA", "aaa", "#afa")
+                        (self.arxiv_primary_category, "", "#afa")
                     )
                 )
 
