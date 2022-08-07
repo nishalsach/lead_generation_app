@@ -113,9 +113,13 @@ class articleCard():
                     st.write(self.completion3)
         
         # Aside column
-        aside.metric(
-            label="Newsworthiness", 
-            value=self.predicted_newsworthiness)
+        with aside:
+            st.write("Newsworthiness  \n Score:")
+            st.markdown(f"##### {self.predicted_newsworthiness}**")
+
+        # aside.metric(
+        #     label="Newsworthiness", 
+        #     value=self.predicted_newsworthiness)
 
         article_container.markdown("""---""")
 
