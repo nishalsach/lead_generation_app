@@ -95,7 +95,7 @@ class articleCard():
 
             with summary:
                 # Summary
-                st.write(f"  \n  \n {self.summary}")
+                st.markdown(f"#####Summary  \n {self.summary}")
 
             with completions_container:
 
