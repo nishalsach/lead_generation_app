@@ -25,8 +25,9 @@ date_dict = {
 st.title("arXiv Lead Recommender")
 
 # Time range buttons
+st.markdown("#### Select time range for leads: ")
 time_range = st.radio(
-    "Select time range for leads", 
+    "", 
     ("Last two weeks", "Last two months", "Last six months"))
 
 # Start date
