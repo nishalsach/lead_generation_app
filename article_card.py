@@ -56,7 +56,7 @@ class articleCard():
         self.completion3 = completion3
     
     def set_predicted_newsworthiness(self, predicted_newsworthiness):
-        self.predicted_newsworthiness = predicted_newsworthiness
+        self.predicted_newsworthiness = round(predicted_newsworthiness, 2)
     
     def show(self):
 
@@ -77,7 +77,7 @@ class articleCard():
 
             # Categories
             annotated_text(
-                "**Categories**: ", 
+                "Categories: ", 
                 (self.arxiv_primary_category, "", "#afa"), 
                 # " | All", 
                 # self.arxiv_all_categories
@@ -95,12 +95,16 @@ class articleCard():
 
             # Completion 3
             st.markdown(f"Completion 3: {self.completion3}")
+        
+        aside.metric(
+            label="Newsworthiness", 
+            value=self.predicted_newsworthiness)
 
-        with aside: 
-            annotated_text(
-                "Newsworthiness:", 
-                (f"{self.predicted_newsworthiness}", "#afa")
-                )
+        # with aside: 
+        #     annotated_text(
+        #         "Newsworthiness Score \n", 
+        #         (f"{self.predicted_newsworthiness}", "", "#afa")
+        #         )
             
 
         # # Code mentioned
