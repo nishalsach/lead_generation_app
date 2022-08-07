@@ -87,6 +87,7 @@ class articleCard():
                 )
                 st.write(                    
                     annotated_text(
+                        "HI?", 
                         (self.arxiv_primary_category, "", "#afa")
                     )
                 )
