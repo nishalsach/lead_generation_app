@@ -3,7 +3,6 @@ import streamlit as st
 import pandas as pd
 from datetime import date
 import datetime
-import swifter
 
 # Read in data
 predictions = pd.read_json(
@@ -13,7 +12,7 @@ predictions = pd.read_json(
 #     'predicted_data_sample_latest.csv')
 
 # Convert date
-predictions['published'] = predictions['published'].swifter.apply(
+predictions['published'] = predictions['published'].apply(
     lambda x: datetime.datetime.fromtimestamp(int(x)/1000).date()
 )
 
