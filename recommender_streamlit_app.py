@@ -24,7 +24,6 @@ date_dict = {
     'Last two months': two_months_ago,
     'Last six months': six_months_ago
 }
-
 # Dictionary of source-column names
 source_dict = {
     'MIT Technology Review': 'technologyreview',
@@ -42,23 +41,25 @@ metadata_col_names = [
 # Title
 st.title("arXiv Lead Recommender")
 
-# Time range buttons
-# st.markdown("#### Select time range for leads: ")
-time_range = st.radio(
-    "Select time range for leads:", 
+
+
+# Using object notation
+add_selectbox = st.sidebar.selectbox(
+    "How would you like to be contacted?",
+    ("Email", "Home phone", "Mobile phone")
+)
+
+# Using "with" notation
+with st.sidebar:
+    time_range = st.radio(
+        "Select time range for leads:", 
     ("Last two weeks", "Last two months", "Last six months"))
-
-# Start date
-start_date = date_dict[time_range]
-
-# Multiselect box for venues
- 
-# first argument takes the box title
-# second argument takes the options to show
-# st.markdown("#### Select upto 3 news venues you would like to write for: ")
-venues = st.multiselect(
+    venues = st.multiselect(
     "Select upto 3 news venues you would like to write for: ",
     ['MIT Technology Review', 'Wired', 'VentureBeat'])
+
+# Start date and venue col names
+start_date = date_dict[time_range]
 venues_col_names = [source_dict[venue] for venue in venues]
 
 # Filter on date and venues
