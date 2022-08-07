@@ -105,4 +105,9 @@ class articleCard():
         aside.metric(
             label="Newsworthiness", 
             value=self.predicted_newsworthiness)
+
+        article_container.markdown("""---""")
+        article_container.markdown("""---""")
+
+        
         
