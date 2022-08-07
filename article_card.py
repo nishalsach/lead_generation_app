@@ -71,22 +71,26 @@ class articleCard():
         # Main column
         with main:
 
-            # Title
-            st.markdown(f"### {self.title}")
-            # Published and link
-            st.markdown(f"**Date Published**: {self.published} | [arXiv Link]({self.arxiv_url})")
-
-            # Categories
-            annotated_text(
-                "Primary Category: ", 
-                (self.arxiv_primary_category, "", "#afa"), 
-            )
-            
-            # Summary
-            st.write(f"\n\n{self.summary}")
-
-            # Container for completions
+            # New containers
+            header = st.container()
+            summary = st.container()
             completions_container = st.container()
+
+            with header:
+                # Title
+                st.markdown(f"### {self.title}")
+                # Published and link
+                st.markdown(f"**Date Published**: {self.published} | [arXiv Link]({self.arxiv_url})")
+                # Categories
+                annotated_text(
+                    "Primary Category: ", 
+                    (self.arxiv_primary_category, "", "#afa"), 
+                )
+            
+            with summary:
+                # Summary
+                st.write(f"\n\n{self.summary}")
+
             with completions_container:
 
                 # Describe it
