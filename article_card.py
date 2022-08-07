@@ -85,15 +85,13 @@ class articleCard():
                 st.write(
                     f"**Primary Category**: ", 
                 )
-                st.write(                    
-                    annotated_text(
-                        "HI?", 
-                        (self.arxiv_primary_category, "", "#afa")
-                    )
-                )
+                # st.write(                    
+                #     annotated_text(
+                #         "HI?", 
+                #         (self.arxiv_primary_category, "", "#afa")
+                #     )
+                # )
 
-                
-            
             with summary:
                 # Summary
                 st.write(f"\n\n{self.summary}")
