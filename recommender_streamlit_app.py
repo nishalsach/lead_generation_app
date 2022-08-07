@@ -21,13 +21,20 @@ date_dict = {
     'Last six months': six_months_ago
 }
 
+# Dictionary of source-column names
+source_dict = {
+    'MIT Technology Review': 'technologyreview',
+    'Wired': 'wired',
+    'VentureBeat': 'venturebeat',
+}
+
 # Title
 st.title("arXiv Lead Recommender")
 
 # Time range buttons
-st.markdown("#### Select time range for leads: ")
+# st.markdown("#### Select time range for leads: ")
 time_range = st.radio(
-    "", 
+    "Select time range for leads:", 
     ("Last two weeks", "Last two months", "Last six months"))
 
 # Start date
@@ -37,9 +44,11 @@ start_date = date_dict[time_range]
  
 # first argument takes the box title
 # second argument takes the options to show
-st.markdown("#### Select upto 3 news venues you would like to write for: ")
+# st.markdown("#### Select upto 3 news venues you would like to write for: ")
 venues = st.multiselect(
-    "",
+    "Select upto 3 news venues you would like to write for: ",
     ['MIT Technology Review', 'Wired', 'VentureBeat'])
+venues_col_names = [source_dict[venue] for venue in venues]
 
+# 
 
