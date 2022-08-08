@@ -59,11 +59,11 @@ with st.sidebar:
     st.header("Date and Venue Filters")
     st.write("Select time range for leads:")
     time_range = st.radio(
-        "", 
+        None, 
         ("Last two weeks", "Last two months", "Last six months"))
     st.write("Select upto 3 news venues you would like to write for:")
     venues = st.multiselect(
-        "",
+        None,
         ['MIT Technology Review', 'Wired', 'VentureBeat'])
 
 # Start date and venue col names
