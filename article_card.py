@@ -56,7 +56,7 @@ class articleCard():
         self.completion3 = completion3
     
     def set_predicted_newsworthiness(self, predicted_newsworthiness):
-        self.predicted_newsworthiness = round(predicted_newsworthiness, 2)
+        self.predicted_newsworthiness = str(round(predicted_newsworthiness, 2)*100)+"/100"
     
     def show(self):
 
