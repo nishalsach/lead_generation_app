@@ -57,12 +57,14 @@ with title_container:
 # Using "with" notation
 with st.sidebar:
     st.header("Date and Venue Filters")
+    st.write("Select time range for leads:")
     time_range = st.radio(
-        "Select time range for leads:", 
-    ("Last two weeks", "Last two months", "Last six months"))
+        "", 
+        ("Last two weeks", "Last two months", "Last six months"))
+    st.write("Select upto 3 news venues you would like to write for:")
     venues = st.multiselect(
-    "Select upto 3 news venues you would like to write for: ",
-    ['MIT Technology Review', 'Wired', 'VentureBeat'])
+        "",
+        ['MIT Technology Review', 'Wired', 'VentureBeat'])
 
 # Start date and venue col names
 start_date = date_dict[time_range]
