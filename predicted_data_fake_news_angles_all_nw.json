@@ -1,0 +1,113 @@
+[
+    {
+        "arxiv_id":"2208.02205v1",
+        "predicted_newsworthiness":0.5105206768,
+        "title":"DAHiTrA: Damage Assessment Using a Novel Hierarchical Transformer Architecture",
+        "summary":"This paper presents DAHiTrA, a novel deep-learning model with hierarchical transformers to classify building damages based on satellite images in the aftermath of hurricanes. An automated building damage assessment provides critical information for decision making and resource allocation for rapid emergency response. Satellite imagery provides real-time, high-coverage information and offers opportunities to inform large-scale post-disaster building damage assessment. In addition, deep-learning methods have shown to be promising in classifying building damage. In this work, a novel transformer-based network is proposed for assessing building damage. This network leverages hierarchical spatial features of multiple resolutions and captures temporal difference in the feature domain after applying a transformer encoder on the spatial features. The proposed network achieves state-of-the-art-performance when tested on a large-scale disaster damage dataset (xBD) for building localization and damage classification, as well as on LEVIR-CD dataset for change detection tasks. In addition, we introduce a new high-resolution satellite imagery dataset, Ida-BD (related to the 2021 Hurricane Ida in Louisiana in 2021, for domain adaptation to further evaluate the capability of the model to be applied to newly damaged areas with scarce data. The domain adaptation results indicate that the proposed model can be adapted to a new event with only limited fine-tuning. Hence, the proposed model advances the current state of the art through better performance and domain adaptation. Also, Ida-BD provides a higher-resolution annotated dataset for future studies in this field.",
+        "completion1":"This is a test completion for latency checking.",
+        "completion2":"This is a test completion for latency checking.",
+        "completion3":"This is a test completion for latency checking.",
+        "theconversation":0.180115397,
+        "newsscientist":0.1990865383,
+        "technologyreview":0.2602415796,
+        "venturebeat":0.2360261227,
+        "wired":0.2186781733,
+        "arxiv_url":"http:\/\/arxiv.org\/abs\/2208.02205v1",
+        "arxiv_primary_category":"cs.cv",
+        "arxiv_all_categories":[
+            "cs.cv"
+        ],
+        "published":1659544899000,
+        "published_hr":"Aug 03, 2022",
+        "arxiv_primary_category_hr":"Computer Vision and Pattern Recognition"
+    },
+    {
+        "arxiv_id":"2208.02225v1",
+        "predicted_newsworthiness":0.4585022599,
+        "title":"Sequence Model Imitation Learning with Unobserved Contexts",
+        "summary":"We consider imitation learning problems where the expert has access to a per-episode context that is hidden from the learner, both in the demonstrations and at test-time. While the learner might not be able to accurately reproduce expert behavior early on in an episode, by considering the entire history of states and actions, they might be able to eventually identify the context and act as the expert would. We prove that on-policy imitation learning algorithms (with or without access to a queryable expert) are better equipped to handle these sorts of asymptotically realizable problems than off-policy methods and are able to avoid the latching behavior (naive repetition of past actions) that plagues the latter. We conduct experiments in a toy bandit domain that show that there exist sharp phase transitions of whether off-policy approaches are able to match expert performance asymptotically, in contrast to the uniformly good performance of on-policy approaches. We demonstrate that on several continuous control tasks, on-policy approaches are able to use history to identify the context while off-policy approaches actually perform worse when given access to history.",
+        "completion1":"This is a test completion for latency checking.",
+        "completion2":"This is a test completion for latency checking.",
+        "completion3":"This is a test completion for latency checking.",
+        "theconversation":0.0975556479,
+        "newsscientist":0.1697349534,
+        "technologyreview":0.2645389233,
+        "venturebeat":0.2218040821,
+        "wired":0.1781781072,
+        "arxiv_url":"http:\/\/arxiv.org\/abs\/2208.02225v1",
+        "arxiv_primary_category":"cs.lg",
+        "arxiv_all_categories":[
+            "cs.lg"
+        ],
+        "published":1659547664000,
+        "published_hr":"Aug 03, 2022",
+        "arxiv_primary_category_hr":"Machine Learning"
+    },
+    {
+        "arxiv_id":"2208.02210v1",
+        "predicted_newsworthiness":0.4510874532,
+        "title":"Free-HeadGAN: Neural Talking Head Synthesis with Explicit Gaze Control",
+        "summary":"We present Free-HeadGAN, a person-generic neural talking head synthesis system. We show that modeling faces with sparse 3D facial landmarks are sufficient for achieving state-of-the-art generative performance, without relying on strong statistical priors of the face, such as 3D Morphable Models. Apart from 3D pose and facial expressions, our method is capable of fully transferring the eye gaze, from a driving actor to a source identity. Our complete pipeline consists of three components: a canonical 3D key-point estimator that regresses 3D pose and expression-related deformations, a gaze estimation network and a generator that is built upon the architecture of HeadGAN. We further experiment with an extension of our generator to accommodate few-shot learning using an attention mechanism, in case more than one source images are available. Compared to the latest models for reenactment and motion transfer, our system achieves higher photo-realism combined with superior identity preservation, while offering explicit gaze control.",
+        "completion1":"This is a test completion for latency checking.",
+        "completion2":"This is a test completion for latency checking.",
+        "completion3":"This is a test completion for latency checking.",
+        "theconversation":0.0940956958,
+        "newsscientist":0.1392840751,
+        "technologyreview":0.2246716954,
+        "venturebeat":0.2324880499,
+        "wired":0.1977174062,
+        "arxiv_url":"http:\/\/arxiv.org\/abs\/2208.02210v1",
+        "arxiv_primary_category":"cs.cv",
+        "arxiv_all_categories":[
+            "cs.cv"
+        ],
+        "published":1659545168000,
+        "published_hr":"Aug 03, 2022",
+        "arxiv_primary_category_hr":"Computer Vision and Pattern Recognition"
+    },
+    {
+        "arxiv_id":"2208.02245v1",
+        "predicted_newsworthiness":0.3773772596,
+        "title":"MinVIS: A Minimal Video Instance Segmentation Framework without Video-based Training",
+        "summary":"We propose MinVIS, a minimal video instance segmentation (VIS) framework that achieves state-of-the-art VIS performance with neither video-based architectures nor training procedures. By only training a query-based image instance segmentation model, MinVIS outperforms the previous best result on the challenging Occluded VIS dataset by over 10% AP. Since MinVIS treats frames in training videos as independent images, we can drastically sub-sample the annotated frames in training videos without any modifications. With only 1% of labeled frames, MinVIS outperforms or is comparable to fully-supervised state-of-the-art approaches on YouTube-VIS 2019\/2021. Our key observation is that queries trained to be discriminative between intra-frame object instances are temporally consistent and can be used to track instances without any manually designed heuristics. MinVIS thus has the following inference pipeline: we first apply the trained query-based image instance segmentation to video frames independently. The segmented instances are then tracked by bipartite matching of the corresponding queries. This inference is done in an online fashion and does not need to process the whole video at once. MinVIS thus has the practical advantages of reducing both the labeling costs and the memory requirements, while not sacrificing the VIS performance. Code is available at: https:\/\/github.com\/NVlabs\/MinVIS",
+        "completion1":"This is a test completion for latency checking.",
+        "completion2":"This is a test completion for latency checking.",
+        "completion3":"This is a test completion for latency checking.",
+        "theconversation":0.0808601459,
+        "newsscientist":0.1262410706,
+        "technologyreview":0.1837086582,
+        "venturebeat":0.1895720268,
+        "wired":0.1657778674,
+        "arxiv_url":"http:\/\/arxiv.org\/abs\/2208.02245v1",
+        "arxiv_primary_category":"cs.cv",
+        "arxiv_all_categories":[
+            "cs.cv",
+            "cs.ai"
+        ],
+        "published":1659549042000,
+        "published_hr":"Aug 03, 2022",
+        "arxiv_primary_category_hr":"Computer Vision and Pattern Recognition"
+    },
+    {
+        "arxiv_id":"2208.02207v1",
+        "predicted_newsworthiness":0.3476554498,
+        "title":"Robot Learning from Demonstration Using Elastic Maps",
+        "summary":"Learning from Demonstration (LfD) is a popular method of reproducing and generalizing robot skills from human-provided demonstrations. In this paper, we propose a novel optimization-based LfD method that encodes demonstrations as elastic maps. An elastic map is a graph of nodes connected through a mesh of springs. We build a skill model by fitting an elastic map to the set of demonstrations. The formulated optimization problem in our approach includes three objectives with natural and physical interpretations. The main term rewards the mean squared error in the Cartesian coordinate. The second term penalizes the non-equidistant distribution of points resulting in the optimum total length of the trajectory. The third term rewards smoothness while penalizing nonlinearity. These quadratic objectives form a convex problem that can be solved efficiently with local optimizers. We examine nine methods for constructing and weighting the elastic maps and study their performance in robotic tasks. We also evaluate the proposed method in several simulated and real-world experiments using a UR5e manipulator arm, and compare it to other LfD approaches to demonstrate its benefits and flexibility across a variety of metrics.",
+        "completion1":"This is a test completion for latency checking.",
+        "completion2":"This is a test completion for latency checking.",
+        "completion3":"This is a test completion for latency checking.",
+        "theconversation":0.0858014979,
+        "newsscientist":0.1439052223,
+        "technologyreview":0.2238564677,
+        "venturebeat":0.1619443429,
+        "wired":0.1712011947,
+        "arxiv_url":"http:\/\/arxiv.org\/abs\/2208.02207v1",
+        "arxiv_primary_category":"cs.ro",
+        "arxiv_all_categories":[
+            "cs.ro"
+        ],
+        "published":1659544927000,
+        "published_hr":"Aug 03, 2022",
+        "arxiv_primary_category_hr":"Robotics"
+    }
+]
