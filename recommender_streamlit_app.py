@@ -1,7 +1,6 @@
 # Library Imports
 import streamlit as st
 import pandas as pd
-from datetime import date
 import datetime
 import article_card as ac
 
@@ -9,24 +8,22 @@ import article_card as ac
 predictions = pd.read_json(
     'predicted_data_sample_latest.json', 
     orient='records')
-# predictions = pd.read_csv(
-#     'predicted_data_sample_latest.csv')
 
-# Convert date
-predictions['published'] = predictions['published'].apply(
-    lambda x: datetime.datetime.fromtimestamp(int(x)/1000).date()
-)
+# # Convert date
+# predictions['published'] = predictions['published'].apply(
+#     lambda x: datetime.datetime.fromtimestamp(int(x)/1000).date()
+# )
 
 # Set some variables
 venues_col_names = []
 start_date = None
 
 # Today's date
-today = date.today()
+now = datetime.datetime.now().replace(microsecond=0)
 # Get relative dates
-two_weeks_ago = today - pd.Timedelta(days=14)
-two_months_ago = today - pd.Timedelta(days=60)
-six_months_ago = today - pd.Timedelta(days=180)
+two_weeks_ago = int(datetime.datetime.timestamp(now - pd.Timedelta(days=14))*1000)
+two_months_ago = int(datetime.datetime.timestamp(now - pd.Timedelta(days=60))*1000)
+six_months_ago = int(datetime.datetime.timestamp(now - pd.Timedelta(days=180))*1000)
 
 # Make dictionary of relative dates
 date_dict = {
@@ -62,31 +59,36 @@ with st.sidebar:
         ("Last two weeks", "Last two months", "Last six months"))
     venues = st.multiselect(
         "Select upto 3 news venues you would like to write for: ",
-        ['MIT Technology Review', 'Wired', 'VentureBeat'])
+        ['MIT Technology Review', 'New Scientist', 'The Conversation', 'VentureBeat', 'Wired', ])
 
-# Start date and venue col names
-start_date = date_dict[time_range]
-venues_col_names = [source_dict[venue] for venue in venues]
-
-# Run app
-if start_date and venues_col_names:
-
-    # Filter data
+# Check and run app
+if time_range:
+    # Put in a start date
+    start_date = date_dict[time_range]
+    # Filter by date
     predictions = predictions.loc[
         predictions['published'] >= start_date
-    ][metadata_col_names + venues_col_names]
-
-    # Scoring on relevance
-    predictions['relevance_score'] = predictions[venues_col_names].mean(axis=1)
-
-    # Overall scoring
-    predictions['ranking_score'] = (predictions['relevance_score'] + predictions['predicted_newsworthiness']) / 2
-
-    # Sort by overall score
-    predictions = predictions.sort_values(by='ranking_score', ascending=False)
+    ]
+    # Check for venues:
+    if venues:
+        # Put in the venues
+        venues_col_names = [source_dict[venue] for venue in venues]
+        # Filter by venues
+        predictions = predictions.loc[
+            [metadata_col_names + venues_col_names]]
+        # Scoring on relevance
+        predictions['relevance_score'] = predictions[venues_col_names].mean(axis=1)
+        # Overall scoring
+        predictions['ranking_score'] = (predictions['relevance_score'] + predictions['predicted_newsworthiness']) / 2
+        # Sort by overall score
+        predictions = predictions.sort_values(by='ranking_score', ascending=False)
+        # Reset index
+        predictions = predictions.reset_index(drop=True)
     
-    # Reset index
-    predictions = predictions.reset_index(drop=True)
+    # Otherwise just sort by newsworthiness and show
+    else:
+        predictions = predictions.sort_values(by='predicted_newsworthiness', ascending=False)
+        predictions = predictions.reset_index(drop=True)
 
     # Fill in article cards
     article_cards = []
@@ -96,11 +98,13 @@ if start_date and venues_col_names:
         article.set_title(predictions.loc[i, 'title'])
         article.set_summary(predictions.loc[i, 'summary'])
         article.set_published(predictions.loc[i, 'published'])
+        article.set_published_hr(predictions.loc[i, 'published_hr'])
         article.set_arxiv_url(predictions.loc[i, 'arxiv_url'])
         article.set_arxiv_primary_category(predictions.loc[i, 'arxiv_primary_category'])
-        article.set_arxiv_all_categories(predictions.loc[i, 'arxiv_all_categories'])
-        article.set_code_mentioned(predictions.loc[i, 'code_mentioned'])
-        article.set_readability(predictions.loc[i, 'readability'])
+        article.set_arxiv_primary_category_hr(predictions.loc[i, 'arxiv_primary_category_hr'])
+        # article.set_arxiv_all_categories(predictions.loc[i, 'arxiv_all_categories'])
+        # article.set_code_mentioned(predictions.loc[i, 'code_mentioned'])
+        # article.set_readability(predictions.loc[i, 'readability'])
         article.set_completion1(predictions.loc[i, 'completion1'])
         article.set_completion2(predictions.loc[i, 'completion2'])
         article.set_completion3(predictions.loc[i, 'completion3'])
