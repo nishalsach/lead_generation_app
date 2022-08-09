@@ -87,7 +87,7 @@ class articleCard():
                 st.subheader(f"{self.title}")
                 # Published and link
                 st.markdown(
-                    f"**Date Published**: {self.published}  \n **Primary Category**: {self.arxiv_primary_category}")
+                    f"**Date Published**: {self.published_hr}  \n **Primary Category**: {self.arxiv_primary_category_hr}")
 
             with summary:
                 # Summary
