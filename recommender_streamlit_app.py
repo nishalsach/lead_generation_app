@@ -68,49 +68,51 @@ if time_range:
     # Put in a start date
     start_date = date_dict[time_range]
     # Filter by date
-    predictions = predictions.loc[
+    predictions_result = predictions.loc[
         predictions['published'] >= start_date
-    ]
+    ].copy()
+    # Reset index
+    predictions_result.reset_index(drop=True, inplace=True)
     # Check for venues:
     if venues:
         # Put in the venues
         venues_col_names = [source_dict[venue] for venue in venues]
         # Filter by venues
-        predictions = predictions.loc[
+        predictions_result = predictions_result.loc[
             [metadata_col_names + venues_col_names]]
         # Scoring on relevance
-        predictions['relevance_score'] = predictions[venues_col_names].mean(axis=1)
+        predictions_result['relevance_score'] = predictions_result[venues_col_names].mean(axis=1)
         # Overall scoring
-        predictions['ranking_score'] = (predictions['relevance_score'] + predictions['predicted_newsworthiness']) / 2
+        predictions_result['ranking_score'] = (predictions_result['relevance_score'] + predictions_result['predicted_newsworthiness']) / 2
         # Sort by overall score
-        predictions = predictions.sort_values(by='ranking_score', ascending=False)
+        predictions_result = predictions_result.sort_values(by='ranking_score', ascending=False)
         # Reset index
-        predictions = predictions.reset_index(drop=True)
+        predictions_result = predictions_result.reset_index(drop=True)
     
     # Otherwise just sort by newsworthiness and show
     else:
-        predictions = predictions.sort_values(by='predicted_newsworthiness', ascending=False)
-        predictions = predictions.reset_index(drop=True)
+        predictions_result = predictions_result.sort_values(by='predicted_newsworthiness', ascending=False)
+        predictions_result = predictions_result.reset_index(drop=True)
 
     # Fill in article cards
     article_cards = []
-    for i in range(len(predictions)):
+    for i in range(len(predictions_result)):
         article = ac.articleCard()
-        article.set_arxiv_id(predictions.loc[i, 'arxiv_id'])
-        article.set_title(predictions.loc[i, 'title'])
-        article.set_summary(predictions.loc[i, 'summary'])
-        article.set_published(predictions.loc[i, 'published'])
-        article.set_published_hr(predictions.loc[i, 'published_hr'])
-        article.set_arxiv_url(predictions.loc[i, 'arxiv_url'])
-        article.set_arxiv_primary_category(predictions.loc[i, 'arxiv_primary_category'])
-        article.set_arxiv_primary_category_hr(predictions.loc[i, 'arxiv_primary_category_hr'])
+        article.set_arxiv_id(predictions_result.loc[i, 'arxiv_id'])
+        article.set_title(predictions_result.loc[i, 'title'])
+        article.set_summary(predictions_result.loc[i, 'summary'])
+        article.set_published(predictions_result.loc[i, 'published'])
+        article.set_published_hr(predictions_result.loc[i, 'published_hr'])
+        article.set_arxiv_url(predictions_result.loc[i, 'arxiv_url'])
+        article.set_arxiv_primary_category(predictions_result.loc[i, 'arxiv_primary_category'])
+        article.set_arxiv_primary_category_hr(predictions_result.loc[i, 'arxiv_primary_category_hr'])
         # article.set_arxiv_all_categories(predictions.loc[i, 'arxiv_all_categories'])
         # article.set_code_mentioned(predictions.loc[i, 'code_mentioned'])
         # article.set_readability(predictions.loc[i, 'readability'])
-        article.set_completion1(predictions.loc[i, 'completion1'])
-        article.set_completion2(predictions.loc[i, 'completion2'])
-        article.set_completion3(predictions.loc[i, 'completion3'])
-        article.set_predicted_newsworthiness(predictions.loc[i, 'predicted_newsworthiness'])
+        article.set_completion1(predictions_result.loc[i, 'completion1'])
+        article.set_completion2(predictions_result.loc[i, 'completion2'])
+        article.set_completion3(predictions_result.loc[i, 'completion3'])
+        article.set_predicted_newsworthiness(predictions_result.loc[i, 'predicted_newsworthiness'])
         article_cards.append(article)
     
     # Make a container for the articles
