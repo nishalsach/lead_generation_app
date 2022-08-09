@@ -7,7 +7,7 @@ import article_card as ac
 # Read in data
 predictions = pd.read_json(
     'predicted_data_fake_news_angles_filtered_nw.json', 
-    orient='records')
+    orient='records').sample(150)
 
 # # Convert date
 # predictions['published'] = predictions['published'].apply(
