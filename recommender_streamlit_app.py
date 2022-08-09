@@ -42,9 +42,18 @@ source_dict = {
 
 # List of metadata columns
 metadata_col_names = [
-    'arxiv_id', 'arxiv_url', 'arxiv_primary_category', 
-    'arxiv_all_categories', 'published', 'code_mentioned', 'readability',
-    'title', 'summary', 'completion1', 'completion2', 'completion3', 
+    'arxiv_id', 
+    'arxiv_url', 
+    'arxiv_primary_category', 
+    'arxiv_all_categories', 
+    'published', 
+    'code_mentioned', 
+    'readability',
+    'title', 
+    'summary', 
+    'completion1', 
+    'completion2', 
+    'completion3', 
     'predicted_newsworthiness']
 
 # Title
@@ -78,8 +87,9 @@ if time_range:
         # Put in the venues
         venues_col_names = [source_dict[venue] for venue in venues]
         # Filter by venues
-        predictions_result = predictions_result.loc[
+        predictions_result = predictions_result[
             metadata_col_names + venues_col_names]
+
         # Scoring on relevance
         predictions_result['relevance_score'] = predictions_result[venues_col_names].mean(axis=1)
         # Overall scoring
