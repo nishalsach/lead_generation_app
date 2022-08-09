@@ -94,10 +94,10 @@ if time_range:
 
         # Scoring on relevance
         predictions_result['relevance_score'] = predictions_result[venues_col_names].mean(axis=1)
-        # # Overall scoring
-        # predictions_result['ranking_score'] = (predictions_result['relevance_score'] + predictions_result['predicted_newsworthiness']) / 2
+        # Overall scoring
+        predictions_result['ranking_score'] = (predictions_result['relevance_score'] + predictions_result['predicted_newsworthiness']) / 2
         # Sort by overall score
-        predictions_result = predictions_result.sort_values(by='relevance_score', ascending=False)
+        predictions_result = predictions_result.sort_values(by='ranking_score', ascending=False)
         # Reset index
         predictions_result = predictions_result.reset_index(drop=True)
     
@@ -106,15 +106,6 @@ if time_range:
         predictions_result = predictions_result.sort_values(by='predicted_newsworthiness', ascending=False)
         predictions_result = predictions_result.reset_index(drop=True)
     
-    # # Batching for display
-    # batch_size = 25
-    # # Get number of batches
-    # num_batches = int(len(predictions_result) / batch_size)
-    # # Get remainder
-    # remainder = len(predictions_result) % batch_size
-    # # Get batch indices
-    # batch_indices = [(i*batch_size, (i+1)*batch_size) for i in range(num_batches)]
-
     # Fill in article cards
     article_cards = []
     for i in range(len(predictions_result)):
