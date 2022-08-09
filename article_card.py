@@ -97,7 +97,7 @@ class articleCard():
                 # Describe it
                 st.markdown(f"##### Potential News Angles for framing this story:")
                 # Completions
-                st.markdown(f"1. {self.completion1}  \n 2. {self.completion2}  \n 3. {self.completion3}")
+                st.markdown(f"\t 1. {self.completion1}  \n \t 2. {self.completion2}  \n \t 3. {self.completion3}")
 
                 # with tab1:
                 #     st.write(self.completion1)
