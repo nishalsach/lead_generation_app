@@ -47,6 +47,8 @@ metadata_col_names = [
     'arxiv_primary_category', 
     # 'arxiv_all_categories', 
     'published', 
+    'published_hr', 
+    'arxiv_primary_category_hr',
     # 'code_mentioned', 
     # 'readability',
     'title', 
