@@ -79,7 +79,7 @@ if time_range:
         venues_col_names = [source_dict[venue] for venue in venues]
         # Filter by venues
         predictions_result = predictions_result.loc[
-            [metadata_col_names + venues_col_names]]
+            metadata_col_names + venues_col_names]
         # Scoring on relevance
         predictions_result['relevance_score'] = predictions_result[venues_col_names].mean(axis=1)
         # Overall scoring
