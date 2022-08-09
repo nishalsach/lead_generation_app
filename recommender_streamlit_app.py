@@ -36,6 +36,8 @@ source_dict = {
     'MIT Technology Review': 'technologyreview',
     'Wired': 'wired',
     'VentureBeat': 'venturebeat',
+    'New Scientist': 'newsscientist',
+    'The Conversation': 'theconversation',
 }
 
 # List of metadata columns
