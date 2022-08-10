@@ -69,7 +69,7 @@ with st.sidebar:
         ("Two weeks", "Two months", "Six months"))
     st.header("Outlet Selection")
     venues = st.multiselect(
-        "Select upto 3 news outlets you are interested in writing for. Items will be ranked according to their relevance to the selected outlets. If no outlets are selected, items will be simply ranked by newsworthiness score.",
+        "Select upto 3 news outlets you are interested in writing for. Items will be ranked on their relevance to the selected outlets. If no outlets are selected, items will be ranked by newsworthiness scores instead.",
         ['MIT Technology Review', 'New Scientist', 'The Conversation', 'VentureBeat', 'Wired', ])
     st.header("Newsworthiness Filter")
     min_newsworthiness = st.slider(
