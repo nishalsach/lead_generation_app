@@ -7,7 +7,7 @@ import article_card as ac
 # Read in data
 predictions = pd.read_json(
     'predicted_data_fake_news_angles.json', 
-    orient='records').sample(150).reset_index(drop=True)
+    orient='records')#.sample(150).reset_index(drop=True)
 
 # Set some variables
 venues_col_names = []
