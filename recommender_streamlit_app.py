@@ -54,13 +54,10 @@ metadata_col_names = [
     'predicted_newsworthiness']
 
 # Show articles
-def show_articles(articles_container):
-    with articles_container:
-        # Display article cards
-        for article in article_cards:
-            article.show()
-
-
+def show_articles(article_cards):
+    # Display article cards
+    for article in article_cards:
+        article.show()
 
 
 
@@ -154,13 +151,9 @@ if time_range:
         article.set_predicted_newsworthiness(predictions_result.loc[i, 'predicted_newsworthiness'])
         article_cards.append(article)
     
-
-    # Make a container for the articles
-    articles_container = st.container()
-    
     # Hello hello
     st.button(
-        "A Button!", on_click=show_articles, args=(articles_container,)
+        "A Button!", on_click=show_articles, args=(article_cards,)
         )
     
     # Scroll up
