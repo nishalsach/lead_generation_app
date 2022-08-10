@@ -53,6 +53,11 @@ metadata_col_names = [
     'completion3', 
     'predicted_newsworthiness']
 
+
+# global vars
+global articles_container
+# DO: Make containers gloabl as they are upper level containers
+
 # Show articles
 def show_articles(articles_container, article_cards):
     with articles_container:
@@ -158,7 +163,7 @@ if time_range:
     
     # Hello hello
     st.button(
-        "A Button!", on_click=show_articles, args=(articles_container,article_cards)
+        "A Button!", on_click=show_articles, args=(articles_container, article_cards)
         )
     
     # Scroll up
