@@ -9,11 +9,6 @@ predictions = pd.read_json(
     'predicted_data_fake_news_angles_filtered_nw.json', 
     orient='records').sample(150).reset_index(drop=True)
 
-# # Convert date
-# predictions['published'] = predictions['published'].apply(
-#     lambda x: datetime.datetime.fromtimestamp(int(x)/1000).date()
-# )
-
 # Set some variables
 venues_col_names = []
 start_date = None
@@ -27,9 +22,9 @@ six_months_ago = int(datetime.datetime.timestamp(now - pd.Timedelta(days=180))*1
 
 # Make dictionary of relative dates
 date_dict = {
-    'Last two weeks': two_weeks_ago,
-    'Last two months': two_months_ago,
-    'Last six months': six_months_ago
+    'Two weeks': two_weeks_ago,
+    'Two months': two_months_ago,
+    'Six months': six_months_ago
 }
 # Dictionary of source-column names
 source_dict = {
@@ -66,12 +61,15 @@ with title_container:
 
 # Using "with" notation
 with st.sidebar:
-    st.header("Date and Venue Filters")
+    st.header("Instructions")
+    st.write("Here you can select the date range for arXiv articles, the news outlets you would like to write articles for, as well as the minimum newsworthiness score for articles to be included in the recommendations.")
+    st.header("Date Filter")
     time_range = st.radio(
-        "Select time range for leads:", 
-        ("Last two weeks", "Last two months", "Last six months"))
+        "Include articles published in the last:",
+        ("Two weeks", "Two months", "Six months"))
+    st.header("Outlet Selection")
     venues = st.multiselect(
-        "Select upto 3 news venues you would like to write for: ",
+        "Select upto 3 news outlets you are interested in writing for. Items will be ranked according to their relevance to the selected outlets.  \n If no outlets are selected, items will be simply ranked by newsworthiness score.",
         ['MIT Technology Review', 'New Scientist', 'The Conversation', 'VentureBeat', 'Wired', ])
 
 # Check and run app
