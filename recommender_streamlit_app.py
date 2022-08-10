@@ -53,6 +53,17 @@ metadata_col_names = [
     'completion3', 
     'predicted_newsworthiness']
 
+# Show articles
+def show_articles(articles_container):
+    with articles_container:
+        # Display article cards
+        for article in article_cards:
+            article.show()
+
+
+
+
+
 # Title
 title_container = st.container()
 with title_container:
@@ -82,6 +93,7 @@ with st.sidebar:
 
 # Check and run app
 if time_range:
+
     # Put in a start date
     start_date = date_dict[time_range]
     # Filter by date
@@ -142,12 +154,14 @@ if time_range:
         article.set_predicted_newsworthiness(predictions_result.loc[i, 'predicted_newsworthiness'])
         article_cards.append(article)
     
+
     # Make a container for the articles
     articles_container = st.container()
-    with articles_container:
-        # Display article cards
-        for article in article_cards:
-            article.show()
+    
+    # Hello hello
+    st.button(
+        "A Button!", on_click=show_articles, args=(articles_container,)
+        )
     
     # Scroll up
     st.markdown("[Go back to the top.](#arxiv-news-discovery-engine)")
