@@ -62,15 +62,23 @@ with title_container:
 # Using "with" notation
 with st.sidebar:
     st.header("Instructions")
-    st.write("Here you can select the date range for arXiv articles, the news outlets you would like to write articles for, as well as the minimum newsworthiness score for articles to be included in the recommendations.")
+    st.write("You can select the time range for arXiv articles, the news outlets you would like to write for, and the minimum newsworthiness score for articles to be included in the recommendations.")
     st.header("Date Filter")
     time_range = st.radio(
         "Include articles published in the last:",
         ("Two weeks", "Two months", "Six months"))
     st.header("Outlet Selection")
     venues = st.multiselect(
-        "Select upto 3 news outlets you are interested in writing for. Items will be ranked according to their relevance to the selected outlets.  \n If no outlets are selected, items will be simply ranked by newsworthiness score.",
+        "Select upto 3 news outlets you are interested in writing for. Items will be ranked according to their relevance to the selected outlets. If no outlets are selected, items will be simply ranked by newsworthiness score.",
         ['MIT Technology Review', 'New Scientist', 'The Conversation', 'VentureBeat', 'Wired', ])
+    st.header("Newsworthiness Filter")
+    min_newsworthiness = st.slider(
+        "Minimum newsworthiness score for articles to be included in the recommendations",
+        min_value=0, 
+        max_value=95,
+        value=50, 
+        step=5
+    )
 
 # Check and run app
 if time_range:
