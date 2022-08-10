@@ -73,7 +73,7 @@ with st.sidebar:
         ['MIT Technology Review', 'New Scientist', 'The Conversation', 'VentureBeat', 'Wired', ])
     st.header("Newsworthiness Filter")
     min_newsworthiness = st.slider(
-        "Minimum newsworthiness score for articles to be included in the recommendations",
+        "Minimum newsworthiness score for articles :",
         min_value=0, 
         max_value=95,
         value=50, 
