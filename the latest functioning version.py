@@ -6,8 +6,8 @@ import article_card as ac
 
 # Read in data
 predictions = pd.read_json(
-    'predicted_data_fake_news_angles.json', 
-    orient='records').sample(100).reset_index(drop=True)
+    'predicted_data_fake_news_angles_filtered_nw.json', 
+    orient='records').sample(150).reset_index(drop=True)
 
 # Set some variables
 venues_col_names = []
@@ -31,7 +31,7 @@ source_dict = {
     'MIT Technology Review': 'technologyreview',
     'Wired': 'wired',
     'VentureBeat': 'venturebeat',
-    'New Scientist': 'newcientist',
+    'New Scientist': 'newsscientist',
     'The Conversation': 'theconversation',
 }
 
@@ -40,9 +40,12 @@ metadata_col_names = [
     'arxiv_id', 
     'arxiv_url', 
     'arxiv_primary_category', 
+    # 'arxiv_all_categories', 
     'published', 
     'published_hr', 
     'arxiv_primary_category_hr',
+    # 'code_mentioned', 
+    # 'readability',
     'title', 
     'summary', 
     'completion1', 
@@ -58,25 +61,16 @@ with title_container:
 
 # Using "with" notation
 with st.sidebar:
-
     st.header("Instructions")
     st.write("You can interact with the controls below to refine the recommendations of the tool.")
-    
     st.header("Filter on Date of Publication")
     time_range = st.radio(
         "Include articles published in the last:",
         ("Two weeks", "Two months", "Six months"))
-
     st.header("Select News Outlets of Interest")
     venues = st.multiselect(
         "Select upto 3 news outlets you are interested in writing for. Items will be ranked on their relevance to the selected outlets. If no outlets are selected, items will be ranked by newsworthiness scores instead.",
-        [
-            'MIT Technology Review', 
-            'New Scientist', 
-            'The Conversation', 
-            'VentureBeat', 
-            'Wired', ])
-
+        ['MIT Technology Review', 'New Scientist', 'The Conversation', 'VentureBeat', 'Wired', ])
     st.header("Filter on Newsworthiness")
     min_newsworthiness = st.slider(
         "Minimum newsworthiness score for articles :",
@@ -88,21 +82,16 @@ with st.sidebar:
 
 # Check and run app
 if time_range:
-
     # Put in a start date
     start_date = date_dict[time_range]
-    
     # Filter by date
     predictions_result = predictions.loc[
-        predictions['published'] >= start_date &
-        predictions['predicted_newsworthiness'] >= min_newsworthiness
+        predictions['published'] >= start_date
     ].copy()
     # Reset index
     predictions_result.reset_index(drop=True, inplace=True)
-
     # Check for venues:
     if venues:
-
         # Put in the venues
         venues_col_names = [source_dict[venue] for venue in venues]
         # Filter by venues
@@ -110,11 +99,11 @@ if time_range:
             metadata_col_names + venues_col_names]
 
         # Scoring on relevance
-        predictions_result['outlet_relevance'] = predictions_result[venues_col_names].mean(axis=1)
+        predictions_result['relevance_score'] = predictions_result[venues_col_names].mean(axis=1)
         # # Overall scoring
-        # predictions_result['ranking_score'] = (predictions_result['outlet_relevance'] + predictions_result['predicted_newsworthiness']) / 2
+        # predictions_result['ranking_score'] = (predictions_result['relevance_score'] + predictions_result['predicted_newsworthiness']) / 2
         # Sort by overall score
-        predictions_result = predictions_result.sort_values(by='outlet_relevance', ascending=False)
+        predictions_result = predictions_result.sort_values(by='relevance_score', ascending=False)
         # Reset index
         predictions_result = predictions_result.reset_index(drop=True)
     
@@ -144,6 +133,9 @@ if time_range:
         article.set_arxiv_url(predictions_result.loc[i, 'arxiv_url'])
         article.set_arxiv_primary_category(predictions_result.loc[i, 'arxiv_primary_category'])
         article.set_arxiv_primary_category_hr(predictions_result.loc[i, 'arxiv_primary_category_hr'])
+        # article.set_arxiv_all_categories(predictions.loc[i, 'arxiv_all_categories'])
+        # article.set_code_mentioned(predictions.loc[i, 'code_mentioned'])
+        # article.set_readability(predictions.loc[i, 'readability'])
         article.set_completion1(predictions_result.loc[i, 'completion1'])
         article.set_completion2(predictions_result.loc[i, 'completion2'])
         article.set_completion3(predictions_result.loc[i, 'completion3'])
