@@ -94,8 +94,8 @@ if time_range:
 
     # Filter by date
     predictions_result = predictions.loc[
-        predictions['published'] >= start_date &
-        predictions['predicted_newsworthiness'] >= min_newsworthiness
+        (predictions['published'] >= start_date) &
+        (predictions['predicted_newsworthiness'] >= min_newsworthiness)
     ].copy()
     # Reset index
     predictions_result.reset_index(drop=True, inplace=True)
