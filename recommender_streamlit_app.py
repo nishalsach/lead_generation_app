@@ -4,14 +4,17 @@ import pandas as pd
 import datetime
 import article_card as ac
 
-# Read in data
-predictions = pd.read_json(
-    'predicted_data_fake_news_angles.json', 
-    orient='records')#.sample(150).reset_index(drop=True)
+# Read in and cache this dataframe
+@st.cache
+def get_data():
+    return pd.read_json(
+        'predicted_data_fake_news_angles.json', 
+        orient='records')#.sample(150).reset_index(drop=True)
+predictions = get_data()
 
-# Set some variables
-venues_col_names = []
-start_date = None
+# # Set some variables
+# venues_col_names = []
+# start_date = None
 
 # Today's date
 now = datetime.datetime.now().replace(microsecond=0)
@@ -40,12 +43,9 @@ metadata_col_names = [
     'arxiv_id', 
     'arxiv_url', 
     'arxiv_primary_category', 
-    # 'arxiv_all_categories', 
     'published', 
     'published_hr', 
     'arxiv_primary_category_hr',
-    # 'code_mentioned', 
-    # 'readability',
     'title', 
     'summary', 
     'completion1', 
@@ -53,38 +53,31 @@ metadata_col_names = [
     'completion3', 
     'predicted_newsworthiness']
 
-
-# global vars
-global articles_container
-# DO: Make containers gloabl as they are upper level containers
-
-# Show articles
-def show_articles(articles_container, article_cards):
-    with articles_container:
-        # Display article cards
-        for article in article_cards:
-            article.show()
-
-
-
 # Title
 title_container = st.container()
 with title_container:
     st.title("arXiv News Discovery Engine")
     st.markdown("""---""")
 
+# Make a container for the articles
+articles_container = st.container()
+
 # Using "with" notation
 with st.sidebar:
     st.header("Instructions")
     st.write("You can interact with the controls below to refine the recommendations of the tool.")
+    
     st.header("Filter on Date of Publication")
     time_range = st.radio(
-        "Include articles published in the last:",
-        ("Two weeks", "Two months", "Six months"))
+        label = "Include articles published in the last:",
+        options = ("Two weeks", "Two months", "Six months"))
+
     st.header("Select News Outlets of Interest")
     venues = st.multiselect(
-        "Select upto 3 news outlets you are interested in writing for. Items will be ranked on their relevance to the selected outlets. If no outlets are selected, items will be ranked by newsworthiness scores instead.",
-        ['MIT Technology Review', 'New Scientist', 'The Conversation', 'VentureBeat', 'Wired', ])
+        label = "Select upto 3 news outlets you are interested in writing for. Items will be ranked on their relevance to the selected outlets. If no outlets are selected, items will be ranked by newsworthiness scores instead.",
+        options = ['MIT Technology Review', 'New Scientist', 'The Conversation', 'VentureBeat', 'Wired', ], 
+        default=None)
+
     st.header("Filter on Newsworthiness")
     min_newsworthiness = st.slider(
         "Minimum newsworthiness score for articles :",
@@ -94,41 +87,40 @@ with st.sidebar:
         step=5
     )
 
-# Check and run app
-if time_range:
 
-    # Put in a start date
-    start_date = date_dict[time_range]
-    # Filter by date
-    predictions_result = predictions.loc[
-        predictions['published'] >= start_date
-    ].copy()
+# Put in a start date
+start_date = date_dict[time_range]
+# Filter by date
+predictions_result = predictions.loc[
+    predictions['published'] >= start_date
+].copy()
+# Reset index
+predictions_result.reset_index(drop=True, inplace=True)
+
+# Check for venues:
+if venues:
+    # Put in the venues
+    venues_col_names = [source_dict[venue] for venue in venues]
+    # Filter by venues
+    predictions_result = predictions_result[
+        metadata_col_names + venues_col_names]
+
+    # Scoring on relevance
+    predictions_result['relevance_score'] = predictions_result[venues_col_names].mean(axis=1)
+    # # Overall scoring
+    # predictions_result['ranking_score'] = (predictions_result['relevance_score'] + predictions_result['predicted_newsworthiness']) / 2
+    # Sort by overall score
+    predictions_result = predictions_result.sort_values(by='relevance_score', ascending=False)
     # Reset index
-    predictions_result.reset_index(drop=True, inplace=True)
-    # Check for venues:
-    if venues:
-        # Put in the venues
-        venues_col_names = [source_dict[venue] for venue in venues]
-        # Filter by venues
-        predictions_result = predictions_result[
-            metadata_col_names + venues_col_names]
+    predictions_result = predictions_result.reset_index(drop=True)
 
-        # Scoring on relevance
-        predictions_result['relevance_score'] = predictions_result[venues_col_names].mean(axis=1)
-        # # Overall scoring
-        # predictions_result['ranking_score'] = (predictions_result['relevance_score'] + predictions_result['predicted_newsworthiness']) / 2
-        # Sort by overall score
-        predictions_result = predictions_result.sort_values(by='relevance_score', ascending=False)
-        # Reset index
-        predictions_result = predictions_result.reset_index(drop=True)
-    
-    # Otherwise just sort by newsworthiness and show
-    else:
-        predictions_result = predictions_result.sort_values(by='predicted_newsworthiness', ascending=False)
-        predictions_result = predictions_result.reset_index(drop=True)
+# Otherwise just sort by newsworthiness and show
+else:
+    predictions_result = predictions_result.sort_values(by='predicted_newsworthiness', ascending=False)
+    predictions_result = predictions_result.reset_index(drop=True)
     
     # # Batching for display
-    # batch_size = 25
+    # batch_size = 50
     # # Get number of batches
     # num_batches = int(len(predictions_result) / batch_size)
     # # Get remainder
@@ -157,14 +149,11 @@ if time_range:
         article.set_predicted_newsworthiness(predictions_result.loc[i, 'predicted_newsworthiness'])
         article_cards.append(article)
     
+    # Display articles
+    with articles_container:
+        for article in article_cards:
+            article.show()
 
-    # Make a container for the articles
-    articles_container = st.container()
-    
-    # Hello hello
-    st.button(
-        "A Button!", on_click=show_articles, args=(articles_container, article_cards)
-        )
     
     # Scroll up
     st.markdown("[Go back to the top.](#arxiv-news-discovery-engine)")
