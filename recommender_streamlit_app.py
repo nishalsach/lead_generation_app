@@ -4,6 +4,7 @@ import pandas as pd
 import datetime
 import article_card as ac
 import math
+from sklearn.preprocessing import MinMaxScaler
 
 def next_page():
     st.session_state.page += 1
@@ -92,14 +93,6 @@ with st.sidebar:
         label = "Pubiication date for arXiv articles:",
         options = ("None", "Last two weeks", "Last two months", "Last six months"))
 
-    # Outlet filter
-    st.header("Select News Outlets")
-    venues = st.multiselect(
-        label = "Select upto 3 news outlets you are interested in writing for.",
-        options = list(source_dict.keys()), 
-        help = 'Items will be ranked on their relevance to the selected outlets. If no outlets are selected, items will be ranked by newsworthiness scores instead.', 
-        default=None)
-    
     # Newsworthiness filter
     st.header("Filter on Newsworthiness")
     min_newsworthiness = st.slider(
@@ -109,6 +102,16 @@ with st.sidebar:
         value=50, 
         step=5
     )
+
+    # Outlet filter
+    st.header("Select News Outlets")
+    venues = st.multiselect(
+        label = "Select one or more news outlets that you are interested in writing for.",
+        options = list(source_dict.keys()), 
+        help = 'Items will be ranked on their relevance to the selected outlets. If no outlets are selected, items will be ranked by newsworthiness scores instead.', 
+        default=None)
+    
+    
     # # Scroll up
     # st.markdown("[Scroll results back to the top.](#arxiv-news-discovery-engine)")
 
@@ -132,7 +135,10 @@ elif st.session_state.min_newsworthiness != min_newsworthiness:
 
 # Conditions to display dummy item
 if time_range=="None":
-    st.write("Instructions/Dummy Item go here")
+
+    st.markdown("Welcome to the arXiv news discovery engine! This tool has been designed to help you uncover the most newsworthy articles from the thousands that are published in the [arXiv preprint repository](https://arxiv.org). It specifically recommends articles from the field of Computer Science, as well as its intersections with other fields of impact. \n\n  You can use the sidebar to  filter the results by their **date of publication**. By default, the articles you see are ranked by their **newsworthiness scores** that we calculated using an AI model. This model was informed by the opinions and ideas of other journalists like you. This newsworthiness score can also be used to filter out articles. You can also select specific **news outlets** you are interested in pitching stories to. This selection will automatically rank the results by their relevance to your selected outlets. The relevance scores that are displayed in this case are to be considered relative to each other.  \n\n  Along with its recommendations, the tool also provides a list of news angles that could be used to frame potential stories about the individual articles. These news angles were generated using [OpenAI's GPT-3]() model. \n\n ")
+
+    # (https://arxiv.org/list/cs/new)
 
 # Full item display
 if time_range!="None":
@@ -162,6 +168,10 @@ if time_range!="None":
 
         # Scoring on relevance
         predictions_filtered['outlet_relevance'] = predictions_filtered[venues_col_names].mean(axis=1)
+        # # Scale to 0-100
+        # scaler = MinMaxScaler()
+        # predictions_filtered['outlet_relevance'] = scaler.fit_transform(
+        #     predictions_filtered[['predictions_filtered']])
         # Sort by overall score
         predictions_filtered = predictions_filtered.sort_values(by='outlet_relevance', ascending=False)
         # Reset index
@@ -241,7 +251,7 @@ if time_range!="None":
         # add the link at the bottom of each page
         st.markdown(
             "<h5 style='text-align: center'><a href='#arxiv-news-discovery-engine'>Scroll back to the top of page.</a></h5>", unsafe_allow_html=True)
-            
+
         # # Setup the bottom pagination
         # bottom_pages_container = st.container()
         # with bottom_pages_container:
