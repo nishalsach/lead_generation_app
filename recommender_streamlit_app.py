@@ -241,6 +241,7 @@ if time_range!="None":
         # add the link at the bottom of each page
         st.markdown(
             "<h5 style='text-align: center'><a href='#arxiv-news-discovery-engine'>Scroll back to the top of page.</a></h5>", unsafe_allow_html=True)
+            
         # # Setup the bottom pagination
         # bottom_pages_container = st.container()
         # with bottom_pages_container:
