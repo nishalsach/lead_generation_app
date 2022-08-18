@@ -4,7 +4,6 @@ import pandas as pd
 import datetime
 import article_card as ac
 import math
-import streamlit.components.v1 as components
 
 def next_page():
     st.session_state.page += 1
