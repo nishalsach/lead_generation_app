@@ -1,0 +1,76 @@
+[
+    {
+        "arxiv_id":"2203.05037v1",
+        "predicted_newsworthiness":0.7717511335,
+        "title":"Human-GDPR Interaction: Practical Experiences of Accessing Personal Data",
+        "summary":"In our data-centric world, most services rely on collecting and using personal data. The EU's General Data Protection Regulation (GDPR) aims to enhance individuals' control over their data, but its practical impact is not well understood. We present a 10-participant study, where each participant filed 4-5 data access requests. Through interviews accompanying these requests and discussions scrutinising returned data, it appears that GDPR falls short of its goals due to non-compliance and low-quality responses. Participants found their hopes to understand providers' data practices or harness their own data unmet. This causes increased distrust without any subjective improvement in power, although more transparent providers do earn greater trust. We propose designing more effective, data-inclusive and open policies and data access systems to improve both customer relations and individual agency, and also that wider public use of GDPR rights could help with delivering accountability and motivating providers to improve data practices.",
+        "completion1":"This is a test completion for latency checking.",
+        "completion2":"This is a test completion for latency checking.",
+        "completion3":"This is a test completion for latency checking.",
+        "theconversation":0.2750014171,
+        "newsscientist":0.2483999762,
+        "technologyreview":0.3749076581,
+        "venturebeat":0.3503243638,
+        "wired":0.3115097564,
+        "arxiv_url":"http:\/\/arxiv.org\/abs\/2203.05037v1",
+        "arxiv_primary_category":"cs.hc",
+        "arxiv_all_categories":[
+            "cs.hc"
+        ],
+        "published":1646858121000,
+        "code_mentioned":0,
+        "readability":0.91,
+        "published_hr":"Mar 09, 2022",
+        "arxiv_primary_category_hr":"Human-Computer Interaction"
+    },
+    {
+        "arxiv_id":"2207.13834v1",
+        "predicted_newsworthiness":0.6684354556,
+        "title":"Toward Supporting Perceptual Complementarity in Human-AI Collaboration via Reflection on Unobservables",
+        "summary":"In many real world contexts, successful human-AI collaboration requires humans to productively integrate complementary sources of information into AI-informed decisions. However, in practice human decision-makers often lack understanding of what information an AI model has access to in relation to themselves. There are few available guidelines regarding how to effectively communicate about unobservables: features that may influence the outcome, but which are unavailable to the model. In this work, we conducted an online experiment to understand whether and how explicitly communicating potentially relevant unobservables influences how people integrate model outputs and unobservables when making predictions. Our findings indicate that presenting prompts about unobservables can change how humans integrate model outputs and unobservables, but do not necessarily lead to improved performance. Furthermore, the impacts of these prompts can vary depending on decision-makers' prior domain expertise. We conclude by discussing implications for future research and design of AI-based decision support tools.",
+        "completion1":"This is a test completion for latency checking.",
+        "completion2":"This is a test completion for latency checking.",
+        "completion3":"This is a test completion for latency checking.",
+        "theconversation":0.2124801589,
+        "newsscientist":0.2595795922,
+        "technologyreview":0.3982521505,
+        "venturebeat":0.3793583619,
+        "wired":0.2947500751,
+        "arxiv_url":"http:\/\/arxiv.org\/abs\/2207.13834v1",
+        "arxiv_primary_category":"cs.hc",
+        "arxiv_all_categories":[
+            "cs.hc",
+            "cs.ai"
+        ],
+        "published":1658966714000,
+        "code_mentioned":1,
+        "readability":0.84,
+        "published_hr":"Jul 27, 2022",
+        "arxiv_primary_category_hr":"Human-Computer Interaction"
+    },
+    {
+        "arxiv_id":"2203.04921v1",
+        "predicted_newsworthiness":0.5057885442,
+        "title":"The Severity Prediction of The Binary And Multi-Class Cardiovascular Disease -- A Machine Learning-Based Fusion Approach",
+        "summary":"In today's world, a massive amount of data is available in almost every sector. This data has become an asset as we can use this enormous amount of data to find information. Mainly health care industry contains many data consisting of patient and disease-related information. By using the machine learning technique, we can look for hidden data patterns to predict various diseases. Recently CVDs, or cardiovascular disease, have become a leading cause of death around the world. The number of death due to CVDs is frightening. That is why many researchers are trying their best to design a predictive model that can save many lives using the data mining model. In this research, some fusion models have been constructed to diagnose CVDs along with its severity. Machine learning(ML) algorithms like artificial neural network, SVM, logistic regression, decision tree, random forest, and AdaBoost have been applied to the heart disease dataset to predict disease. Randomoversampler was implemented because of the class imbalance in multiclass classification. To improve the performance of classification, a weighted score fusion approach was taken. At first, the models were trained. After training, two algorithms' decision was combined using a weighted sum rule. A total of three fusion models have been developed from the six ML algorithms. The results were promising in the performance parameter. The proposed approach has been experimented with different test training ratios for binary and multiclass classification problems, and for both of them, the fusion models performed well. The highest accuracy for multiclass classification was found as 75%, and it was 95% for binary. The code can be found in : https:\/\/github.com\/hafsa-kibria\/Weighted_score_fusion_model_heart_disease_prediction",
+        "completion1":"This is a test completion for latency checking.",
+        "completion2":"This is a test completion for latency checking.",
+        "completion3":"This is a test completion for latency checking.",
+        "theconversation":0.1331101709,
+        "newsscientist":0.168687594,
+        "technologyreview":0.220802409,
+        "venturebeat":0.2173424479,
+        "wired":0.1210979454,
+        "arxiv_url":"http:\/\/arxiv.org\/abs\/2203.04921v1",
+        "arxiv_primary_category":"cs.lg",
+        "arxiv_all_categories":[
+            "cs.lg",
+            "cs.ai"
+        ],
+        "published":1646849184000,
+        "code_mentioned":1,
+        "readability":0.88,
+        "published_hr":"Mar 09, 2022",
+        "arxiv_primary_category_hr":"Machine Learning"
+    }
+]

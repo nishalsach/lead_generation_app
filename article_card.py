@@ -1,5 +1,4 @@
 import streamlit as st
-from annotated_text import annotated_text
 
 class articleCard():
 
@@ -11,9 +10,8 @@ class articleCard():
         self.published = None
         self.arxiv_url = None
         self.arxiv_primary_category = None
-        # self.arxiv_all_categories = None
-        # self.code_mentioned = None
-        # self.readability = None
+        self.arxiv_primary_category_hr = None
+        self.published_hr = None
         self.completion1 = None
         self.completion2 = None
         self.completion3 = None
@@ -62,7 +60,15 @@ class articleCard():
         self.completion3 = completion3
     
     def set_predicted_newsworthiness(self, predicted_newsworthiness):
-        self.predicted_newsworthiness = str(round(predicted_newsworthiness, 2)*100)[:2]+"/100"
+        # self.predicted_newsworthiness = str(round(predicted_newsworthiness, 2)*100)[:2]+"/100"
+        # Change with newwest data update
+        self.predicted_newsworthiness = str(int(predicted_newsworthiness))+"/100"
+
+    def set_outlet_relevance(self, outlet_relevance):
+        if isinstance(outlet_relevance, str):
+            self.outlet_relevance = outlet_relevance
+        else:
+            self.outlet_relevance = str(round(outlet_relevance, 2)) # this needs to be edited
     
     def show(self):
 
@@ -91,11 +97,11 @@ class articleCard():
 
             with summary:
                 # Summary
-                st.markdown(f"##### Summary  \n {self.summary}  \n [Link to full arXiv article.]({self.arxiv_url})")
+                st.markdown(f"#### Summary  \n {self.summary}  \n [Link to full arXiv article.]({self.arxiv_url})")
 
             with completions_container:
                 # Describe it
-                st.markdown(f"##### Potential News Angles for framing this story:")
+                st.markdown(f"#### Potential News Angles for framing this story:")
                 # Completions
                 st.markdown(f" \t 1. {self.completion1}  \n 2. {self.completion2}  \n 3. {self.completion3}")
 
@@ -113,6 +119,9 @@ class articleCard():
         aside.metric(
             label="Newsworthiness", 
             value=self.predicted_newsworthiness)
+        aside.metric(
+            label="Outlet Relevance", 
+            value=self.outlet_relevance)
 
         article_container.markdown("""---""")
 

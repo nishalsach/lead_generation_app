@@ -3,18 +3,21 @@ import streamlit as st
 import pandas as pd
 import datetime
 import article_card as ac
+import math
+import streamlit.components.v1 as components
+
+def next_page():
+    st.session_state.page += 1
+def prev_page():
+    st.session_state.page -= 1
 
 # Read in and cache this dataframe
 @st.cache
 def get_data():
     return pd.read_json(
-        'predicted_data_fake_news_angles.json', 
-        orient='records')#.sample(150).reset_index(drop=True)
+        '220101_onwards_all_predictions_sample_300.json', 
+        orient='records').reset_index(drop=True)
 predictions = get_data()
-
-# # Set some variables
-# venues_col_names = []
-# start_date = None
 
 # Today's date
 now = datetime.datetime.now().replace(microsecond=0)
@@ -25,19 +28,32 @@ six_months_ago = int(datetime.datetime.timestamp(now - pd.Timedelta(days=180))*1
 
 # Make dictionary of relative dates
 date_dict = {
-    'Two weeks': two_weeks_ago,
-    'Two months': two_months_ago,
-    'Six months': six_months_ago
+    'Last two weeks': two_weeks_ago,
+    'Last two months': two_months_ago,
+    'Last six months': six_months_ago
 }
 # Dictionary of source-column names
 source_dict = {
+    'Ars Technica': 'ars_technica',
+    'Futurism': 'futurism',
     'MIT Technology Review': 'technologyreview',
-    'Wired': 'wired',
-    'VentureBeat': 'venturebeat',
-    'New Scientist': 'newsscientist',
+    'New Scientist': 'newscientist',
+    'New York Times': 'nytimes',
+    'Popular Science': 'popsci', 
+    'Popular Mechanics' : 'popularmechanics',
+    'Quartz': 'quartz',
+    'Salon': 'salon',
+    'ScienMag': 'scienmag',
+    'Scientific American': 'scientificamerican',
+    'StatNews': 'statnews',
+    'TechCrunch': 'techcrunch',
     'The Conversation': 'theconversation',
+    'VentureBeat': 'venturebeat',
+    'Vice News': 'vice',
+    'Vox': 'vox',
+    'Washington Post': 'washingtonpost',
+    'Wired': 'wired',
 }
-
 # List of metadata columns
 metadata_col_names = [
     'arxiv_id', 
@@ -53,108 +69,210 @@ metadata_col_names = [
     'completion3', 
     'predicted_newsworthiness']
 
+# Pagination var
+page_size = 5
+
 # Title
 title_container = st.container()
 with title_container:
-    st.title("arXiv News Discovery Engine")
+    # title_col1, title_col2, title_col3 = st.columns([1, 10, 1])
+    st.markdown(
+        "<h1 style='text-align:center'> arXiv News Discovery Engine </h2>", unsafe_allow_html=True)
     st.markdown("""---""")
 
-# Make a container for the articles
-articles_container = st.container()
-
-# Using "with" notation
+# Making the sidebar
 with st.sidebar:
+
+    # Instructions for users
     st.header("Instructions")
     st.write("You can interact with the controls below to refine the recommendations of the tool.")
     
+    # Date filter
     st.header("Filter on Date of Publication")
-    time_range = st.radio(
-        label = "Include articles published in the last:",
-        options = ("Two weeks", "Two months", "Six months"))
+    time_range = st.selectbox(
+        label = "Pubiication date for arXiv articles:",
+        options = ("None", "Last two weeks", "Last two months", "Last six months"))
 
-    st.header("Select News Outlets of Interest")
+    # Outlet filter
+    st.header("Select News Outlets")
     venues = st.multiselect(
-        label = "Select upto 3 news outlets you are interested in writing for. Items will be ranked on their relevance to the selected outlets. If no outlets are selected, items will be ranked by newsworthiness scores instead.",
-        options = ['MIT Technology Review', 'New Scientist', 'The Conversation', 'VentureBeat', 'Wired', ], 
+        label = "Select upto 3 news outlets you are interested in writing for.",
+        options = list(source_dict.keys()), 
+        help = 'Items will be ranked on their relevance to the selected outlets. If no outlets are selected, items will be ranked by newsworthiness scores instead.', 
         default=None)
-
+    
+    # Newsworthiness filter
     st.header("Filter on Newsworthiness")
     min_newsworthiness = st.slider(
-        "Minimum newsworthiness score for articles :",
+        "Show articles with a newsworthiness score above:",
         min_value=0, 
         max_value=95,
         value=50, 
         step=5
     )
+    # # Scroll up
+    # st.markdown("[Scroll results back to the top.](#arxiv-news-discovery-engine)")
+
+# Change session state variables and update page
+if "time_range" not in st.session_state:
+    st.session_state.time_range = time_range
+elif st.session_state.time_range != time_range:
+    st.session_state.time_range = time_range
+    st.session_state.page = 0
+if "venues" not in st.session_state:
+    st.session_state.venues = venues
+elif st.session_state.venues != venues:
+    st.session_state.venues = venues
+    st.session_state.page = 0
+if "min_newsworthiness" not in st.session_state:
+    st.session_state.min_newsworthiness = min_newsworthiness
+elif st.session_state.min_newsworthiness != min_newsworthiness:
+    st.session_state.min_newsworthiness = min_newsworthiness
+    st.session_state.page = 0
 
 
-# Put in a start date
-start_date = date_dict[time_range]
-# Filter by date
-predictions_result = predictions.loc[
-    predictions['published'] >= start_date
-].copy()
-# Reset index
-predictions_result.reset_index(drop=True, inplace=True)
+# Conditions to display dummy item
+if time_range=="None":
+    st.write("Instructions/Dummy Item go here")
 
-# Check for venues:
-if venues:
-    # Put in the venues
-    venues_col_names = [source_dict[venue] for venue in venues]
-    # Filter by venues
-    predictions_result = predictions_result[
-        metadata_col_names + venues_col_names]
+# Full item display
+if time_range!="None":
 
-    # Scoring on relevance
-    predictions_result['relevance_score'] = predictions_result[venues_col_names].mean(axis=1)
-    # # Overall scoring
-    # predictions_result['ranking_score'] = (predictions_result['relevance_score'] + predictions_result['predicted_newsworthiness']) / 2
-    # Sort by overall score
-    predictions_result = predictions_result.sort_values(by='relevance_score', ascending=False)
+    # Put in a start date
+    start_date = date_dict[time_range]
+    # Filter by date
+    predictions_filtered = predictions.loc[
+        predictions['published'] >= start_date
+    ].copy()
+
+    # Filter by newsworthiness
+    predictions_filtered = predictions_filtered.loc[
+        predictions_filtered['predicted_newsworthiness'] >= min_newsworthiness
+    ]
     # Reset index
-    predictions_result = predictions_result.reset_index(drop=True)
+    predictions_filtered.reset_index(drop=True, inplace=True)
 
-# Otherwise just sort by newsworthiness and show
-else:
-    predictions_result = predictions_result.sort_values(by='predicted_newsworthiness', ascending=False)
-    predictions_result = predictions_result.reset_index(drop=True)
-    
-    # # Batching for display
-    # batch_size = 50
-    # # Get number of batches
-    # num_batches = int(len(predictions_result) / batch_size)
-    # # Get remainder
-    # remainder = len(predictions_result) % batch_size
-    # # Get batch indices
-    # batch_indices = [(i*batch_size, (i+1)*batch_size) for i in range(num_batches)]
+    # Check for venues:
+    if venues:
 
-    # Fill in article cards
-    article_cards = []
-    for i in range(len(predictions_result)):
-        article = ac.articleCard()
-        article.set_arxiv_id(predictions_result.loc[i, 'arxiv_id'])
-        article.set_title(predictions_result.loc[i, 'title'])
-        article.set_summary(predictions_result.loc[i, 'summary'])
-        article.set_published(predictions_result.loc[i, 'published'])
-        article.set_published_hr(predictions_result.loc[i, 'published_hr'])
-        article.set_arxiv_url(predictions_result.loc[i, 'arxiv_url'])
-        article.set_arxiv_primary_category(predictions_result.loc[i, 'arxiv_primary_category'])
-        article.set_arxiv_primary_category_hr(predictions_result.loc[i, 'arxiv_primary_category_hr'])
-        # article.set_arxiv_all_categories(predictions.loc[i, 'arxiv_all_categories'])
-        # article.set_code_mentioned(predictions.loc[i, 'code_mentioned'])
-        # article.set_readability(predictions.loc[i, 'readability'])
-        article.set_completion1(predictions_result.loc[i, 'completion1'])
-        article.set_completion2(predictions_result.loc[i, 'completion2'])
-        article.set_completion3(predictions_result.loc[i, 'completion3'])
-        article.set_predicted_newsworthiness(predictions_result.loc[i, 'predicted_newsworthiness'])
-        article_cards.append(article)
+        # Put in the venues
+        venues_col_names = [source_dict[venue] for venue in venues]
+        # Filter by venues
+        predictions_filtered = predictions_filtered[
+            metadata_col_names + venues_col_names]
+
+        # Scoring on relevance
+        predictions_filtered['outlet_relevance'] = predictions_filtered[venues_col_names].mean(axis=1)
+        # Sort by overall score
+        predictions_filtered = predictions_filtered.sort_values(by='outlet_relevance', ascending=False)
+        # Reset index
+        predictions_filtered = predictions_filtered.reset_index(drop=True)
+
+    # Otherwise just sort by newsworthiness and show
+    else:
+
+        predictions_filtered.sort_values(by='predicted_newsworthiness', ascending=False, inplace=True)
+        predictions_filtered = predictions_filtered.reset_index(drop=True)
     
-    # Display articles
-    with articles_container:
-        for article in article_cards:
+    # Pagination config
+    if "page" not in st.session_state:
+        st.session_state.page = 0
+    
+    # Print results only if there are results
+    if predictions_filtered.shape[0] > 0:
+
+        # Calculate max pages for this set of results
+        max_pages = math.ceil(predictions_filtered.shape[0]/page_size)
+        
+        # Setup the top pagination
+        pages_container = st.container()
+        with pages_container:
+            # Make columns for the pagination buttons - do I want to re-align this???
+            _, col1, col2, col3, _ = st.columns([0.1, 0.13, 0.2, 0.1, 0.1])
+            # Next page button if there's pages left
+            if st.session_state.page+1 < max_pages:
+                col3.button(">", on_click=next_page, key='next_top')
+            # Emppty space if there's no next pages left
+            else:
+                col3.write("")  # this makes the empty column show up on mobile
+
+            # Previous page button if there's pages left
+            if st.session_state.page > 0:
+                col1.button("<", on_click=prev_page, key='prev_top')
+            # Emppty space if there's no previous pages left
+            else:
+                col1.write("")  # this makes the empty column show up on mobile
+            # Current page number
+            col2.write(f"Page {1+st.session_state.page} of {max_pages}")
+            
+        # Get a start index of dataframe for the current page
+        start = page_size * st.session_state.page
+        # Get an end index of dataframe for the current page
+        if st.session_state.page == max_pages-1:
+            end = predictions_filtered.shape[0]
+        else:
+            end = start + page_size
+
+        for i in range(start, end):
+
+            article = ac.articleCard()
+
+            # Metadata
+            article.set_arxiv_id(predictions_filtered.loc[i, 'arxiv_id'])
+            article.set_title(predictions_filtered.loc[i, 'title'])
+            article.set_summary(predictions_filtered.loc[i, 'summary'])
+            article.set_published(predictions_filtered.loc[i, 'published'])
+            article.set_published_hr(predictions_filtered.loc[i, 'published_hr'])
+            article.set_arxiv_url(predictions_filtered.loc[i, 'arxiv_url'])
+            article.set_arxiv_primary_category(predictions_filtered.loc[i, 'arxiv_primary_category'])
+            article.set_arxiv_primary_category_hr(predictions_filtered.loc[i, 'arxiv_primary_category_hr'])
+
+            # Angles
+            article.set_completion1(predictions_filtered.loc[i, 'completion1'])
+            article.set_completion2(predictions_filtered.loc[i, 'completion2'])
+            article.set_completion3(predictions_filtered.loc[i, 'completion3'])
+
+            # Metrics
+            article.set_predicted_newsworthiness(predictions_filtered.loc[i, 'predicted_newsworthiness'])
+            article.set_outlet_relevance(predictions_filtered.loc[i, 'outlet_relevance'])
             article.show()
 
+        # # Scroll up
+        # st.markdown("[Scroll back to the top of page.](#arxiv-news-discovery-engine)")
+        # add the link at the bottom of each page
+        st.markdown(
+            "<h5 style='text-align: center'><a href='#arxiv-news-discovery-engine'>Scroll back to the top of page.</a></h5>", unsafe_allow_html=True)
+        # # Setup the bottom pagination
+        # bottom_pages_container = st.container()
+        # with bottom_pages_container:
+        #     # Make columns for the pagination buttons - do I want to re-align this???
+        #     _, col4, col5, col6, _ = st.columns([0.1, 0.1, 0.17, 0.1, 0.1])
+        #     # Next page button if there's pages left
+        #     if st.session_state.page+1 < max_pages:
+        #         col6.button(">", on_click=next_page, key="next_bottom")
+        #     # Emppty space if there's no next pages left
+        #     else:
+        #         col6.write("")  # this makes the empty column show up on mobile
+
+        #     # Previous page button if there's pages left
+        #     if st.session_state.page > 0:
+        #         col4.button("<", on_click=prev_page, key="prev_bottom")
+        #     # Empty space if there's no previous pages left
+        #     else:
+        #         col4.write("")  # this makes the empty column show up on mobile
+        #     # Current page number
+        #     col5.write(f"Page {1+st.session_state.page} of {max_pages}")
+        #     # Scroll up
+        #     st.markdown("[Scroll results back to the top.](#arxiv-news-discovery-engine)")
     
-    # Scroll up
-    st.markdown("[Go back to the top.](#arxiv-news-discovery-engine)")
+    else:
+        st.write("No results found matching these filters.")
+    #     article_cards.append(article)
+
+    # # Display articles
+    # for article in article_cards:
+    #     article.show()
+
+        
+
 
