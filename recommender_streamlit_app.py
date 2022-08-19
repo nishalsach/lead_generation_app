@@ -13,7 +13,7 @@ def prev_page():
     st.session_state.page -= 1
 
 # Read in and cache this dataframe
-# @st.cache
+@st.cache
 def get_data():
     return pd.read_json(
         '220101_onwards_arxiv_predictions_display_10_latest.json',
@@ -22,7 +22,7 @@ def get_data():
 predictions = get_data()
 
 # Read in and cache an image
-@st.cache
+# @st.cache
 def get_dummy_image():
     return Image.open('dummy_image.png')
 
