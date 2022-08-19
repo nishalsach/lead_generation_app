@@ -16,7 +16,8 @@ def prev_page():
 @st.cache
 def get_data():
     return pd.read_json(
-        '220101_onwards_arxiv_predictions_display_10_latest.json',
+        '220101_onwards_arxiv_predictions_display_latest.json',
+        # '220101_onwards_arxiv_predictions_display_10_latest.json',
         # '220101_onwards_all_predictions_sample_300.json', 
         orient='records').reset_index(drop=True)
 predictions = get_data()
@@ -104,17 +105,17 @@ with st.sidebar:
     st.header("Filter on Newsworthiness")
     min_newsworthiness = st.slider(
         "Show articles with a newsworthiness score above:",
-        # Slider arguments for te 100 case
+        # Slider arguments for the 100 case
         # min_value=0, 
-        # max_value=95,
-        # value=50, 
-        # step=5
+        max_value=95,
+        value=50, 
+        step=5
 
         # Slider arguments for the 10 case
-        min_value=0.0, 
-        max_value=9.5,
-        value=5.0, 
-        step=0.5
+        # min_value=0.0, 
+        # max_value=9.5,
+        # value=5.0, 
+        # step=0.5
 
     )
 

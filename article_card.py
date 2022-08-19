@@ -60,11 +60,11 @@ class articleCard():
         self.completion3 = completion3
     
     def set_predicted_newsworthiness(self, predicted_newsworthiness):
-        # # Out of 100 case
-        # self.predicted_newsworthiness = str(int(predicted_newsworthiness))+"/100"
+        # Out of 100 case
+        self.predicted_newsworthiness = str(int(predicted_newsworthiness))+"/100"
 
         # Out of 10 case
-        self.predicted_newsworthiness = str(round(predicted_newsworthiness, 1))+"/10"
+        # self.predicted_newsworthiness = str(round(predicted_newsworthiness, 1))+"/10"
 
         # self.predicted_newsworthiness = str(round(predicted_newsworthiness, 2)*100)[:2]+"/100"
         # Change with newwest data update
