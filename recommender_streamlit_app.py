@@ -78,7 +78,7 @@ metadata_col_names = [
     'predicted_newsworthiness']
 
 # Pagination var
-page_size = 25
+page_size = 20
 
 # Title
 title_container = st.container()
