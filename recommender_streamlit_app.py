@@ -13,7 +13,7 @@ def prev_page():
     st.session_state.page -= 1
 
 # Read in and cache this dataframe
-@st.cache
+# @st.cache
 def get_data():
     return pd.read_json(
         '220101_onwards_arxiv_predictions_display_latest.json',
