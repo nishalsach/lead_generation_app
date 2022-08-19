@@ -60,15 +60,20 @@ class articleCard():
         self.completion3 = completion3
     
     def set_predicted_newsworthiness(self, predicted_newsworthiness):
+        # # Out of 100 case
+        # self.predicted_newsworthiness = str(int(predicted_newsworthiness))+"/100"
+
+        # Out of 10 case
+        self.predicted_newsworthiness = str(round(predicted_newsworthiness, 1))+"/10"
+
         # self.predicted_newsworthiness = str(round(predicted_newsworthiness, 2)*100)[:2]+"/100"
         # Change with newwest data update
-        self.predicted_newsworthiness = str(int(predicted_newsworthiness))+"/100"
 
     def set_outlet_relevance(self, outlet_relevance):
-        if isinstance(outlet_relevance, str):
+        if isinstance(outlet_relevance, str): # if it is N/A
             self.outlet_relevance = outlet_relevance
         else:
-            self.outlet_relevance = str(round(outlet_relevance, 2)) # this needs to be edited
+            self.outlet_relevance = str(round(outlet_relevance*10, 1)) + "/10" 
     
     def show(self):
 
@@ -101,26 +106,16 @@ class articleCard():
 
             with completions_container:
                 # Describe it
-                st.markdown(f"#### Potential News Angles for framing this story:")
+                st.markdown(f"#### Potential news angles for framing this story:")
                 # Completions
                 st.markdown(f" \t 1. {self.completion1}  \n 2. {self.completion2}  \n 3. {self.completion3}")
 
-                # with tab1:
-                #     st.write(self.completion1)
-                # with tab2:
-                #     st.write(self.completion2)
-                # with tab3:
-                #     st.write(self.completion3)
-        
-        # Aside column
-        # with aside:
-        #     st.markdown(f"Newsworthiness  \n ### {self.predicted_newsworthiness}")
-
+        # Aside column stuff
         aside.metric(
             label="Newsworthiness", 
             value=self.predicted_newsworthiness)
         aside.metric(
-            label="Outlet Relevance", 
+            label="Outlet Similarity",
             value=self.outlet_relevance)
 
         article_container.markdown("""---""")

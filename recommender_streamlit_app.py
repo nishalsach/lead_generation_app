@@ -5,6 +5,7 @@ import datetime
 import article_card as ac
 import math
 from sklearn.preprocessing import MinMaxScaler
+from PIL import Image
 
 def next_page():
     st.session_state.page += 1
@@ -12,12 +13,18 @@ def prev_page():
     st.session_state.page -= 1
 
 # Read in and cache this dataframe
-@st.cache
+# @st.cache
 def get_data():
     return pd.read_json(
-        '220101_onwards_all_predictions_sample_300.json', 
+        '220101_onwards_arxiv_predictions_display_10_latest.json',
+        # '220101_onwards_all_predictions_sample_300.json', 
         orient='records').reset_index(drop=True)
 predictions = get_data()
+
+# Read in and cache an image
+@st.cache
+def get_dummy_image():
+    return Image.open('dummy_image.png')
 
 # Today's date
 now = datetime.datetime.now().replace(microsecond=0)
@@ -34,7 +41,7 @@ date_dict = {
 }
 # Dictionary of source-column names
 source_dict = {
-    'Ars Technica': 'ars_technica',
+    'Ars Technica': 'arstechnica',
     'Futurism': 'futurism',
     'MIT Technology Review': 'technologyreview',
     'New Scientist': 'newscientist',
@@ -70,7 +77,7 @@ metadata_col_names = [
     'predicted_newsworthiness']
 
 # Pagination var
-page_size = 5
+page_size = 25
 
 # Title
 title_container = st.container()
@@ -97,10 +104,18 @@ with st.sidebar:
     st.header("Filter on Newsworthiness")
     min_newsworthiness = st.slider(
         "Show articles with a newsworthiness score above:",
-        min_value=0, 
-        max_value=95,
-        value=50, 
-        step=5
+        # Slider arguments for te 100 case
+        # min_value=0, 
+        # max_value=95,
+        # value=50, 
+        # step=5
+
+        # Slider arguments for the 10 case
+        min_value=0.0, 
+        max_value=9.5,
+        value=5.0, 
+        step=0.5
+
     )
 
     # Outlet filter
@@ -136,7 +151,14 @@ elif st.session_state.min_newsworthiness != min_newsworthiness:
 # Conditions to display dummy item
 if time_range=="None":
 
-    st.markdown("Welcome to the arXiv news discovery engine! This tool has been designed to help you uncover the most newsworthy articles from the thousands that are published in the [arXiv preprint repository](https://arxiv.org). It specifically recommends articles from the field of Computer Science, as well as its intersections with other fields of impact. \n\n  You can use the sidebar to  filter the results by their **date of publication**. By default, the articles you see are ranked by their **newsworthiness scores** that we calculated using an AI model. This model was informed by the opinions and ideas of other journalists like you. This newsworthiness score can also be used to filter out articles. You can also select specific **news outlets** you are interested in pitching stories to. This selection will automatically rank the results by their relevance to your selected outlets. The relevance scores that are displayed in this case are to be considered relative to each other.  \n\n  Along with its recommendations, the tool also provides a list of news angles that could be used to frame potential stories about the individual articles. These news angles were generated using [OpenAI's GPT-3]() model. \n\n ")
+    st.markdown("Welcome to the arXiv news discovery engine! This tool has been designed to help you uncover the most newsworthy articles from the thousands that are published in the [arXiv preprint repository](https://arxiv.org). It specifically recommends articles from the field of Computer Science, as well as its intersections with other fields of impact. \n\n  You can use the sidebar to  filter the results by their **date of publication**. By default, the articles you see are ranked by their **newsworthiness scores** that we calculated using an AI model. This model was informed by the opinions and ideas of other journalists like you. This newsworthiness score can also be used to filter out articles. You can also select specific **news outlets** you are interested in pitching stories to. This will also rank the arXiv articles by their similarity to the past coverage from your selected outlet(s). The similarity scores that are displayed in this case should be considered in relation to each other.  \n\n  Along with its recommendations, the tool also provides a list of news angles that could be used to frame potential stories about the individual articles. These news angles were generated using [OpenAI's GPT-3](https://openai.com/api/) model. \n\n ")
+
+    st.markdown("### Example of a recommended article")
+    # Call the image
+    st.image(
+        get_dummy_image(), 
+        caption='Click the top-right corner to expand the image.'
+    )
 
     # (https://arxiv.org/list/cs/new)
 
