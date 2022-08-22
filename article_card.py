@@ -61,7 +61,7 @@ class articleCard():
     
     def set_predicted_newsworthiness(self, predicted_newsworthiness):
         # Out of 100 case
-        self.predicted_newsworthiness = str(int(predicted_newsworthiness))+"/100"
+        self.predicted_newsworthiness = str(int(predicted_newsworthiness))# +"/100"
 
         # Out of 10 case
         # self.predicted_newsworthiness = str(round(predicted_newsworthiness, 1))+"/10"
@@ -73,7 +73,7 @@ class articleCard():
         if isinstance(outlet_relevance, str): # if it is N/A
             self.outlet_relevance = outlet_relevance
         else:
-            self.outlet_relevance = str(round(outlet_relevance*10, 1)) + "/10" 
+            self.outlet_relevance = str(int(outlet_relevance*100))# + "/10" 
     
     def show(self):
 

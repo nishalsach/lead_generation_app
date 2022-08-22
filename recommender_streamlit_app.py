@@ -16,7 +16,7 @@ def prev_page():
 # @st.cache
 def get_data():
     return pd.read_json(
-        '220101_onwards_arxiv_predictions_display_latest.json',
+        '220101_onwards_arxiv_predictions_display.json',
         # '220101_onwards_arxiv_predictions_display_10_latest.json',
         # '220101_onwards_all_predictions_sample_300.json', 
         orient='records').reset_index(drop=True)
@@ -152,7 +152,9 @@ elif st.session_state.min_newsworthiness != min_newsworthiness:
 # Conditions to display dummy item
 if time_range=="None":
 
-    st.markdown("Welcome to the arXiv news discovery engine! This tool has been designed to help you uncover the most newsworthy articles from the thousands that are published in the [arXiv preprint repository](https://arxiv.org). It specifically recommends articles from the field of Computer Science, as well as its intersections with other fields of impact. \n\n  You can use the sidebar to  filter the results by their **date of publication**. By default, the articles you see are ranked by their **newsworthiness scores** that we calculated using an AI model. This model was informed by the opinions and ideas of other journalists like you. This newsworthiness score can also be used to filter out articles. You can also select specific **news outlets** you are interested in pitching stories to. This will also rank the arXiv articles by their similarity to the past coverage from your selected outlet(s). The similarity scores that are displayed in this case should be considered in relation to each other.  \n\n  Along with its recommendations, the tool also provides a list of news angles that could be used to frame potential stories about the individual articles. These news angles were generated using [OpenAI's GPT-3](https://openai.com/api/) model. \n\n ")
+    st.markdown(
+        "Welcome to the arXiv news discovery engine! This tool is designed to help you uncover the most newsworthy articles from the thousands that are published in the [arXiv preprint repository](https://arxiv.org). It specifically recommends articles from the field of Computer Science, as well as its intersections with other fields of impact.  \n\n  You can use the sidebar to  filter the arXiv articles by their **date of publication**. By default, the results you see are ranked by their **newsworthiness scores** that we calculated using an AI model. This score is calculated out of a hundred, and its design has been informed by the opinions and ideas of other journalists like you. The sidebar also lets you use the newsworthiness score to filter out articles.  \n\n  Next, you can optionally select specific news outlets you are interested in pitching stories to. Our tool will then calculate an **outlet similarity score** for each arXiv article, based on its similarity to the past news coverage from your selected outlet(s). It will also rank articles on the basis of higher similarity scores. The similarity scores are out of a hundred, and we recommend that they should be considered relative each other, instead of being compared to the newsworthiness.  \n\n  Along with its recommendations, the tool also provides a list of **news angles** that could be used to frame potential stories about the individual articles. These news angles were generated using [OpenAI's GPT-3](https://openai.com/api/) model. \n\n "
+        )
 
     st.markdown("### Example of a recommended article")
     # Call the image
