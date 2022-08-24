@@ -153,7 +153,7 @@ elif st.session_state.min_newsworthiness != min_newsworthiness:
 if time_range=="None":
 
     st.markdown(
-        "Welcome to the arXiv news discovery engine! This tool is designed to help you uncover the most newsworthy articles from the thousands that are published in the [arXiv preprint repository](https://arxiv.org). It specifically recommends articles from the field of Computer Science, as well as its intersections with other fields of impact.  \n\n  You can use the sidebar to  filter the arXiv articles by their **date of publication**. By default, the results you see are ranked by their **newsworthiness scores** that we calculated using an AI model. This score is calculated out of a hundred, and its design has been informed by the opinions and ideas of other journalists like you. The sidebar also lets you use the newsworthiness score to filter out articles.  \n\n  Next, you can optionally select specific news outlets you are interested in pitching stories to. Our tool will then calculate an **outlet similarity score** for each arXiv article, based on its similarity to the past news coverage from your selected outlet(s). It will also rank articles on the basis of higher similarity scores. The similarity scores are out of a hundred, and we recommend that they should be considered relative each other, instead of being compared to the newsworthiness.  \n\n  Along with its recommendations, the tool also provides a list of **news angles** that could be used to frame potential stories about the individual articles. These news angles were generated using [OpenAI's GPT-3](https://openai.com/api/) model. \n\n "
+        "Welcome to the arXiv news discovery engine! This tool is designed to help you uncover the most newsworthy articles from the thousands that are published in the [arXiv preprint repository](https://arxiv.org). It specifically recommends articles from the field of Computer Science, as well as its intersections with other fields of impact.  \n\n  You can use the sidebar to  filter the arXiv articles by their **date of publication**. By default, the results you see are ranked by their **newsworthiness scores** that we calculated using an AI model. This score is calculated out of a hundred, and its design has been informed by the opinions and ideas of other journalists like you. The sidebar also lets you use the newsworthiness score to filter out articles. **The newsworthiness typically goes as high as an 80 or 90.** \n\n  Next, you can optionally select specific news outlets you are interested in pitching stories to. Our tool will then calculate an **outlet similarity score** for each arXiv article, based on its similarity to the past news coverage from your selected outlet(s). It will also rank articles on the basis of higher similarity scores. **The similarity scores typically go as high as a 40 or 50.** We recommend that these scores should be considered relative each other, instead of being compared to the newsworthiness.  \n\n  Along with its recommendations, the tool also provides a list of **news angles** that could be used to frame potential stories about the individual articles. These news angles were generated using [OpenAI's GPT-3](https://openai.com/api/) model. \n\n "
         )
 
     st.markdown("### Example of a recommended article")
@@ -247,29 +247,55 @@ if time_range!="None":
         else:
             end = start + page_size
 
-        for i in range(start, end):
+        # Change ordering of what metric's on top based on if venues are selected
+        if venues:
+            for i in range(start, end):
+                article = ac.articleCardSimilarity()
 
-            article = ac.articleCard()
+                # Metadata
+                article.set_arxiv_id(predictions_filtered.loc[i, 'arxiv_id'])
+                article.set_title(predictions_filtered.loc[i, 'title'])
+                article.set_summary(predictions_filtered.loc[i, 'summary'])
+                article.set_published(predictions_filtered.loc[i, 'published'])
+                article.set_published_hr(predictions_filtered.loc[i, 'published_hr'])
+                article.set_arxiv_url(predictions_filtered.loc[i, 'arxiv_url'])
+                article.set_arxiv_primary_category(predictions_filtered.loc[i, 'arxiv_primary_category'])
+                article.set_arxiv_primary_category_hr(predictions_filtered.loc[i, 'arxiv_primary_category_hr'])
 
-            # Metadata
-            article.set_arxiv_id(predictions_filtered.loc[i, 'arxiv_id'])
-            article.set_title(predictions_filtered.loc[i, 'title'])
-            article.set_summary(predictions_filtered.loc[i, 'summary'])
-            article.set_published(predictions_filtered.loc[i, 'published'])
-            article.set_published_hr(predictions_filtered.loc[i, 'published_hr'])
-            article.set_arxiv_url(predictions_filtered.loc[i, 'arxiv_url'])
-            article.set_arxiv_primary_category(predictions_filtered.loc[i, 'arxiv_primary_category'])
-            article.set_arxiv_primary_category_hr(predictions_filtered.loc[i, 'arxiv_primary_category_hr'])
+                # Angles
+                article.set_completion1(predictions_filtered.loc[i, 'completion1'])
+                article.set_completion2(predictions_filtered.loc[i, 'completion2'])
+                article.set_completion3(predictions_filtered.loc[i, 'completion3'])
 
-            # Angles
-            article.set_completion1(predictions_filtered.loc[i, 'completion1'])
-            article.set_completion2(predictions_filtered.loc[i, 'completion2'])
-            article.set_completion3(predictions_filtered.loc[i, 'completion3'])
+                # Metrics
+                article.set_predicted_newsworthiness(predictions_filtered.loc[i, 'predicted_newsworthiness'])
+                article.set_outlet_relevance(predictions_filtered.loc[i, 'outlet_relevance'])
+                article.show()
 
-            # Metrics
-            article.set_predicted_newsworthiness(predictions_filtered.loc[i, 'predicted_newsworthiness'])
-            article.set_outlet_relevance(predictions_filtered.loc[i, 'outlet_relevance'])
-            article.show()
+        else: 
+            for i in range(start, end):
+
+                article = ac.articleCardNewsworthiness()
+                # Metadata
+                article.set_arxiv_id(predictions_filtered.loc[i, 'arxiv_id'])
+                article.set_title(predictions_filtered.loc[i, 'title'])
+                article.set_summary(predictions_filtered.loc[i, 'summary'])
+                article.set_published(predictions_filtered.loc[i, 'published'])
+                article.set_published_hr(predictions_filtered.loc[i, 'published_hr'])
+                article.set_arxiv_url(predictions_filtered.loc[i, 'arxiv_url'])
+                article.set_arxiv_primary_category(predictions_filtered.loc[i, 'arxiv_primary_category'])
+                article.set_arxiv_primary_category_hr(predictions_filtered.loc[i, 'arxiv_primary_category_hr'])
+
+                # Angles
+                article.set_completion1(predictions_filtered.loc[i, 'completion1'])
+                article.set_completion2(predictions_filtered.loc[i, 'completion2'])
+                article.set_completion3(predictions_filtered.loc[i, 'completion3'])
+
+                # Metrics
+                article.set_predicted_newsworthiness(predictions_filtered.loc[i, 'predicted_newsworthiness'])
+                article.set_outlet_relevance(predictions_filtered.loc[i, 'outlet_relevance'])
+                article.show()
+
 
         # # Scroll up
         # st.markdown("[Scroll back to the top of page.](#arxiv-news-discovery-engine)")
