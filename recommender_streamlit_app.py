@@ -2,7 +2,8 @@
 import streamlit as st
 import pandas as pd
 import datetime
-import article_card as ac
+import article_card_similarity as acs
+import article_card_newsworthiness as acn
 import math
 from sklearn.preprocessing import MinMaxScaler
 from PIL import Image
@@ -250,7 +251,7 @@ if time_range!="None":
         # Change ordering of what metric's on top based on if venues are selected
         if venues:
             for i in range(start, end):
-                article = ac.articleCardSimilarity()
+                article = acs.articleCardSimilarity()
 
                 # Metadata
                 article.set_arxiv_id(predictions_filtered.loc[i, 'arxiv_id'])
@@ -275,7 +276,7 @@ if time_range!="None":
         else: 
             for i in range(start, end):
 
-                article = ac.articleCardNewsworthiness()
+                article = acn.articleCardNewsworthiness()
                 # Metadata
                 article.set_arxiv_id(predictions_filtered.loc[i, 'arxiv_id'])
                 article.set_title(predictions_filtered.loc[i, 'title'])

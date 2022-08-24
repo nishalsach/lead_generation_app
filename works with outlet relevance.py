@@ -2,7 +2,7 @@
 import streamlit as st
 import pandas as pd
 import datetime
-import article_card as ac
+import article_card_similarity as ac
 
 # Read in and cache this dataframe
 @st.cache
