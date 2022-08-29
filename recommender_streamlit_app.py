@@ -52,7 +52,7 @@ source_dict = {
     'Popular Mechanics' : 'popularmechanics',
     'Quartz': 'quartz',
     'Salon': 'salon',
-    'ScienMag': 'scienmag',
+    # 'ScienMag': 'scienmag',
     'Scientific American': 'scientificamerican',
     'StatNews': 'statnews',
     'TechCrunch': 'techcrunch',
